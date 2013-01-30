@@ -8,50 +8,59 @@ saveAllEditableFields = ->
       url: '/update/' + $field.data('bind')
       data: $field.html()
 
+toggleEditor = ->
+  if $('body').hasClass('editing')
+    saveAllEditableFields()
+    $('.editable').attr('contenteditable','false')
+    $('body').removeClass('editing')
+    $('.actions a.power').addClass('btn-success').removeClass('btn-danger')
+    $('.actions a.power i').addClass('icon-pencil').removeClass('icon-remove')
+
+  else
+    $('.editable').attr('contenteditable','true')
+    $('body').addClass('editing')
+    $('.actions a.power').addClass('btn-danger').removeClass('btn-success')
+    $('.actions a.power i').addClass('icon-remove').removeClass('icon-pencil')
+
+executor = (cmd, value) ->
+  if value instanceof Function
+    value = value()
+  document.execCommand(cmd, false, value)
+
+$ ->
+  $.fn.fondle = (cmd, value) ->
+    $(this).on 'click', (event) ->
+      event.preventDefault()
+      executor(cmd, value)
+
 $ ->
   $('.actions a.save').on 'click', (event) ->
     event.preventDefault()
     saveAllEditableFields()
+    toggleEditor()
 
   $('.actions a.power').on 'click', (event) ->
     event.preventDefault()
+    toggleEditor()
 
-    if $('body').hasClass('editing')
-      $('.editable').attr('contenteditable','false')
-      $('body').removeClass('editing')
-      saveAllEditableFields()
-      $(this).addClass('btn-success').removeClass('btn-danger')
+  # Text formatting
+  $('.toolbar a.bold').fondle 'bold'
+  $('.toolbar a.italic').fondle 'italic'
 
-    else
-      $('.editable').attr('contenteditable','true')
-      $('body').addClass('editing')
-      $(this).addClass('btn-danger').removeClass('btn-success')
+  # Lists
+  $('.toolbar a.ol').fondle 'insertOrderedList'
+  $('.toolbar a.ul').fondle 'insertUnorderedList'
+  $('.toolbar a.indent').fondle 'indent'
+  $('.toolbar a.outdent').fondle 'outdent'
 
+  # Undo/Redo
+  $('.toolbar a.undo').fondle 'undo'
+  $('.toolbar a.redo').fondle 'redo'
 
-  $('.toolbar a.bold').on 'click', (event) ->
-    event.preventDefault()
-    document.execCommand('bold')
+  # Links
+  $('.toolbar a.link').fondle 'createLink', ->
+    prompt('Link URL:')
 
-  $('.toolbar a.italic').on 'click', (event) ->
-    event.preventDefault()
-    document.execCommand('italic')
-
-  $('.toolbar a.ol').on 'click', (event) ->
-    event.preventDefault()
-    document.execCommand('insertOrderedList')
-
-  $('.toolbar a.ul').on 'click', (event) ->
-    event.preventDefault()
-    document.execCommand('insertUnorderedList')
-
-  $('.toolbar a.indent').on 'click', (event) ->
-    event.preventDefault()
-    document.execCommand('indent')
-
-  $('.toolbar a.outdent').on 'click', (event) ->
-    event.preventDefault()
-    document.execCommand('outdent')
-
-  $('.toolbar a.code').on 'click', (event) ->
-    event.preventDefault()
-    document.execCommand('insertHTML', false, prompt('Enter your custom html'))
+  # Insert custom html
+  $('.toolbar a.code').fondle 'insertHTML', ->
+    prompt('Enter your custom html:')

@@ -2,6 +2,11 @@
   font-style: normal;
 }
 
+.toolbar .btn .btn-label {
+  font-size: 11px;
+  line-height: 0;
+}
+
 .editable[contenteditable="true"] {
   border: 1px dotted #aaa;
 }
