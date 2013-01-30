@@ -51,3 +51,7 @@ $ ->
   $('.toolbar a.outdent').on 'click', (event) ->
     event.preventDefault()
     document.execCommand('outdent')
+
+  $('.toolbar a.code').on 'click', (event) ->
+    event.preventDefault()
+    document.execCommand('insertHTML', false, prompt('Enter your custom html'))
