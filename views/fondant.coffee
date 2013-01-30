@@ -49,12 +49,12 @@ $ ->
   $('.toolbar a.italic').fondle 'italic'
 
   # Block Styles
-  $('.toolbar a.normal').fondle 'formatBlock', 'p'
-  $('.toolbar a.h1').fondle 'formatBlock', 'h1'
-  $('.toolbar a.h2').fondle 'formatBlock', 'h2'
-  $('.toolbar a.h3').fondle 'formatBlock', 'h3'
-  $('.toolbar a.h4').fondle 'formatBlock', 'h4'
-  $('.toolbar a.quote').fondle 'formatBlock', 'blockquote'
+  $('.toolbar a.normal').fondle 'formatBlock', '<p>'
+  $('.toolbar a.h1').fondle 'formatBlock', '<h1>'
+  $('.toolbar a.h2').fondle 'formatBlock', '<h2>'
+  $('.toolbar a.h3').fondle 'formatBlock', '<h3>'
+  $('.toolbar a.h4').fondle 'formatBlock', '<h4>'
+  $('.toolbar a.quote').fondle 'formatBlock', '<blockquote>'
 
   # Lists
   $('.toolbar a.ol').fondle 'insertOrderedList'
