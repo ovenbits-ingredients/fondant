@@ -1,0 +1,52 @@
+!!!
+%html
+  %head
+    %link{ rel: "stylesheet", href: "//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap.no-icons.min.css" }
+    %link{ rel: "stylesheet", href: "/css/elusive-webfont.css" }
+    %link{ rel: "stylesheet", href: "/css/fondant.css" }
+  %body.editing
+    .navbar.navbar-static-top
+      .navbar-inner
+        %a.brand Fondant
+
+        .navbar-form.actions.pull-right
+          %a.btn.btn-success.btn-editor.save#save{ href: '#' }
+            %i.icon-ok
+          %a.btn.btn-primary.cancel{ href: '#' }
+            %i.icon-off
+
+        .navbar-form.toolbar
+          .btn-group
+            %a.btn.bold{ href: '#' }
+              %i.icon-bold
+            %a.btn.italic{ href: '#' }
+              %i.icon-italic
+
+          .btn-group
+            %a.btn.dropdown-toggle{ data: { toggle: 'dropdown' },  href: '#' }
+              %i.icon-list
+              %span.caret
+            %ul.dropdown-menu
+              %li
+                %a.ol{ href: '#', tabindex: '-1' }
+                  Numbered
+                %a.ul{ href: '#', tabindex: '-1' }
+                  Bullets
+
+          .btn-group
+            %a.btn.indent{ href: '#' }
+              %i.icon-indent-left
+
+            %a.btn.outdent{ href: '#' }
+              %i.icon-indent-right
+
+
+    .container
+      %h1.editable{ contentEditable: "true", data: { bind: 'title' } }= @title
+      %div.editable{ contentEditable: "true", data: { bind: 'body' } }= @body
+
+    %script{ src: 'http://code.jquery.com/jquery.min.js' }
+    %script{ src: "//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js" }
+    %script{ src: '/js/jquery.htmlClean.min.js' }
+    %script{ src: '/js/fondant.js' }
+

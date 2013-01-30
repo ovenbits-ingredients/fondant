@@ -1,0 +1,30 @@
+.btn i {
+  font-style: normal;
+}
+
+.navbar .btn {
+  line-height: 1;
+}
+
+.editable[contenteditable="true"] {
+  border: 1px dotted #aaa;
+}
+
+body {
+  #save {
+    display: none;
+  }
+
+  .navbar-form.toolbar {
+    display: none;
+  }
+}
+
+body.editing {
+  #save {
+    display: inline-block;
+  }
+  .navbar-form.toolbar {
+    display: block;
+  }
+}
