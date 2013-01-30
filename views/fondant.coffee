@@ -11,7 +11,6 @@ saveAllEditableFields = ->
 
 toggleEditor = ->
   if $('body').hasClass('editing')
-    saveAllEditableFields()
     $('.editable').attr('contenteditable','false')
     $('body').removeClass('editing')
     $('.actions a.power').addClass('btn-success').removeClass('btn-danger')
