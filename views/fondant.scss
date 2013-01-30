@@ -2,10 +2,6 @@
   font-style: normal;
 }
 
-.navbar .btn {
-  line-height: 1;
-}
-
 .editable[contenteditable="true"] {
   border: 1px dotted #aaa;
 }
@@ -26,5 +22,8 @@ body.editing {
   }
   .navbar-form.toolbar {
     display: block;
+  }
+  .editor-power-help {
+    display: none;
   }
 }
