@@ -1,77 +1,86 @@
-saveAllEditableFields = ->
-  $('[contenteditable="true"]').each ->
-    $field = $(this)
-    $field.htmlClean()
+#   # Fondant 0.0.1
+#   ## HTML5 WYSIWYG Editor
+#
+#   Fondant is the icing on the cake for user input.
+#
+#   (c) 2013 Phillip Ridlen, Oven Bits LLC
+#
 
-    $.ajax
-      type: "POST"
-      contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
-      url: '/update/' + $field.data('bind')
-      data: $field.html()
-
-toggleEditor = ->
-  if $('body').hasClass('editing')
-    $('.editable').attr('contenteditable','false')
-    $('body').removeClass('editing')
-    $('.actions a.power').addClass('btn-success').removeClass('btn-danger')
-    $('.actions a.power i').addClass('icon-pencil').removeClass('icon-remove')
-
-  else
-    $('.editable').attr('contenteditable','true')
-    $('body').addClass('editing')
-    $('.actions a.power').addClass('btn-danger').removeClass('btn-success')
-    $('.actions a.power i').addClass('icon-remove').removeClass('icon-pencil')
-
-executor = (cmd, value) ->
-  if value instanceof Function
-    value = value()
-  document.execCommand(cmd, false, value)
+$ = jQuery
 
 $ ->
-  $.fn.fondle = (cmd, value) ->
-    $(this).on 'click', (event) ->
-      event.preventDefault()
-      executor(cmd, value)
 
-$ ->
-  $('.actions a.save').on 'click', (event) ->
-    event.preventDefault()
-    saveAllEditableFields()
-    toggleEditor()
+  Fondant = (element, options) ->
+    this.init 'fondant', element, options
 
-  $('.actions a.power').on 'click', (event) ->
-    event.preventDefault()
-    toggleEditor()
+  Fondant.prototype =
 
-  # Text formatting
-  $('.toolbar a.bold').fondle 'bold'
-  $('.toolbar a.italic').fondle 'italic'
+    constructor: Fondant
 
-  # Block Styles
-  $('.toolbar a.normal').fondle 'formatBlock', '<p>'
-  $('.toolbar a.h1').fondle 'formatBlock', '<h1>'
-  $('.toolbar a.h2').fondle 'formatBlock', '<h2>'
-  $('.toolbar a.h3').fondle 'formatBlock', '<h3>'
-  $('.toolbar a.h4').fondle 'formatBlock', '<h4>'
-  $('.toolbar a.quote').fondle 'formatBlock', '<blockquote>'
+    init: (type, element, options) ->
+      this.type = type
+      this.$element = $(element)
+      this.options = this.getOptions(options)
 
-  # Lists
-  $('.toolbar a.ol').fondle 'insertOrderedList'
-  $('.toolbar a.ul').fondle 'insertUnorderedList'
-  $('.toolbar a.indent').fondle 'indent'
-  $('.toolbar a.outdent').fondle 'outdent'
+      this.textarea = true if this.$element.prop('tagName') == 'textarea'
 
-  # Undo/Redo
-  $('.toolbar a.undo').fondle 'undo'
-  $('.toolbar a.redo').fondle 'redo'
+    getOptions: (options) ->
+      options = $.extend {},
+        $.fn[this.type].defaults,
+        options,
+        this.$element.data()
 
-  # Links
-  $('.toolbar a.link').fondle 'createLink', ->
-    prompt('Link URL:')
+    destroy: ->
+      this.$element.removeData(this.type)
 
-  # Insert custom html
-  $('.toolbar a.code').fondle 'insertHTML', ->
-    prompt('Enter your custom html:')
+    format:
+      apply: (command, value) ->
+        document.execCommand(command, false, value)
+      remove: ->
+        this.apply 'removeFormat'
+      bold: ->
+        this.apply 'bold'
+      italic: ->
+        this.apply 'italic'
+      p: ->
+        this.apply 'formatBlock', '<p>'
+      h1: ->
+        this.apply 'formatBlock', '<h1>'
+      h2: ->
+        this.apply 'formatBlock', '<h2>'
+      h3: ->
+        this.apply 'formatBlock', '<h3>'
+      h4: ->
+        this.apply 'formatBlock', '<h4>'
+      blockquote: ->
+        this.apply 'formatBlock', '<blockquote>'
+      ol: ->
+        this.apply 'insertOrderedList'
+      ul: ->
+        this.apply 'insertUnorderedList'
+      indent: ->
+        this.apply 'indent'
+      outdent: ->
+        this.apply 'outdent'
+      undo: ->
+        this.apply 'undo'
+      redo: ->
+        this.apply 'redo'
+      link: (url) ->
+        this.apply 'createLink', url
 
-  # Clear Formatting (pasting from Word, etc)
-  $('.toolbar a.clear-formatting').fondle 'removeFormat'
+  $.fn.fondant = ->
+    this.each ->
+      $this = $(this)
+      data = $this.data('fondant')
+      options = typeof option == 'object' && option
+      if (!data)
+        $this.data('fondant', (data = new Fondant(this, options)))
+      if (typeof option == 'string')
+        data[option]()
+
+  $.fn.fondant.Contstructor = Fondant
+
+  $.fn.fondant.defaults =
+    cssPrefix: 'fondant-'
+

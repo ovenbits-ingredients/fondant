@@ -20,7 +20,9 @@ module Fondant
 
     # Assets
     get('/js/fondant.js') { coffee :fondant }
+    get('/js/app.js') { coffee :app }
     get('/css/fondant.css') { scss :fondant, style: :compressed }
+    get('/css/app.css') { scss :app, style: :compressed }
 
   end
 end
