@@ -21,7 +21,7 @@
 
     .container
       %h1.editable{ data: { bind: 'title' } }= @title
-      %textarea{ data: { bind: 'body' } }= @body
+      %textarea{ rows: 10, cols: 100, data: { bind: 'body' } }= @body
 
     %script{ src: 'http://code.jquery.com/jquery.min.js' }
     %script{ src: "//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js" }
