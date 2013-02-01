@@ -67,8 +67,8 @@ $ ->
       @$element = $(element)
       @options = @getOptions(options)
 
-      if ( this.$element.prop('tagName').toLowerCase() == 'textarea' )
-        @textarea = true
+      if ( @$element.prop('tagName').toLowerCase() == 'textarea' )
+        @textarea = @$element.clone()
 
       @format.fondant = this
       @templates.fondant = this
@@ -154,14 +154,9 @@ $ ->
       _this = this
       html = @$element.html()
 
-      @$element = @replaceElement(@$element, @templates.textarea())
-      @getElement().attributes = @textarea.attrs
+      @$element = @replaceElement(@$element, @textarea)
       @$element.data(@type, _this)
-
-      if keep_changes
-        @$element.val(html)
-      else
-        @$element.val(@textarea.value)
+      @$element.val(html) if keep_changes
 
       @$element
 
@@ -172,14 +167,11 @@ $ ->
     # the editor gets canceled/destroyed.
     #
     replaceTextareaWithDiv: ->
-      @textarea =
-        value: @$element.val()
-        attrs: @getElement().attributes
-
-      _this = this
-      @$element = @replaceElement(@$element, @templates.editor())
-      @$element.data(@type, _this)
-      @$element.html(@textarea.value)
+      if @textarea
+        _this = this
+        @$element = @replaceElement(@$element, @templates.editor())
+        @$element.data(@type, _this)
+        @$element.html(@textarea.val())
 
 
     # ## Formatting Functions
@@ -274,12 +266,6 @@ $ ->
           id="#{ @fondant.options.prefix }-#{ @fondant.id }">
         </div>
         """
-
-      # ### templates.textarea()
-      #
-      # When the `<textarea>` is restored, start with this.
-      #
-      textarea: -> "<textarea></textarea>"
 
       # ### templates.toolbar()
       #
