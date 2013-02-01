@@ -259,6 +259,18 @@ $ ->
       #
       textarea: -> "<textarea></textarea>"
 
+      # ### templates.toolbar()
+      #
+      toolbar: ->
+        """
+        <div class="#{ @options.cssPrefix }-toolbar" id="#{ @options.cssPrefix }-#{ @id }">
+          <ul>
+            <li><a href="#" data-action="#{ @type }-bold">B</a></li>
+            <li><a href="#" data-action="#{ @type }-italic">I</a></li>
+          </ul>
+        </div>
+        """
+
 
   # ## Plugin Setup
   #
@@ -282,6 +294,7 @@ $ ->
   #
   # Allows user to set their own defaults without having to pass in their
   # overrides on every instantiation
+  #
   $.fn.fondant.defaults =
     cssPrefix: 'fondant-'
 
