@@ -1,0 +1,96 @@
+!!!
+%html
+  %head
+    %link{ rel: "stylesheet", href: "/css/bootstrap.min.css" }
+    %link{ rel: "stylesheet", href: "//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" }
+    %link{ rel: "stylesheet", href: "/css/fondant.css" }
+    %link{ rel: "stylesheet", href: "/css/app.css" }
+  %body
+    .navbar.navbar-fixed-top
+      .navbar-inner
+        .container
+          %a.brand Fondant
+
+          .navbar-form.actions.pull-right
+            %span.btn.disabled.editor-power-help
+              Click the edit button to start the editor →
+            %a.btn.btn-success.btn-editor.save#save{ href: '#' }
+              %i.icon-save
+            %a.btn.btn-success.power{ href: '#' }
+              %i.icon-pencil
+
+          .navbar-form.toolbar
+            .btn-group
+              %a.btn.bold{ href: '#' }
+                %i.icon-bold
+              %a.btn.italic{ href: '#' }
+                %i.icon-italic
+
+            .btn-group
+              %a.btn.dropdown-toggle{ data: { toggle: 'dropdown' }, href: '#' }
+                %i.icon-font
+              %ul.dropdown-menu
+                %li
+                  %a.normal{ href: '#', tabindex: '-1' }
+                    Normal Text
+                %li.divider
+                %li
+                  %a.h1{ href: '#', tabindex: '-1' }
+                    %h1 Heading 1
+                %li
+                  %a.h2{ href: '#', tabindex: '-1' }
+                    %h2 Heading 2
+                %li
+                  %a.h3{ href: '#', tabindex: '-1' }
+                    %h3 Heading 3
+                %li
+                  %a.h4{ href: '#', tabindex: '-1' }
+                    %h4 Heading 4
+
+            .btn-group
+              %a.btn.quote{ href: '#' }
+                %i.icon-quote-left
+
+            .btn-group
+              %a.btn.ol{ href: '#' }
+                %i.icon-list-ol
+              %a.btn.ul{ href: '#' }
+                %i.icon-list-ul
+
+            .btn-group
+              %a.btn.outdent{ href: '#' }
+                %i.icon-indent-left
+
+              %a.btn.indent{ href: '#' }
+                %i.icon-indent-right
+
+            .btn-group
+              %a.btn.undo{ href: '#' }
+                %i.icon-undo
+              %a.btn.redo{ href: '#' }
+                %i.icon-repeat
+
+            .btn-group
+              %a.btn.link{ href: '#' }
+                %i.icon-link
+
+            .btn-group
+              %a.btn.code{ href: '#' }
+                %i.icon-angle-left>
+                %span.btn-label &nbsp;
+                %i.icon-angle-right>
+
+            .btn-group
+              %a.btn.clear-formatting{ href: '#' }
+                %i.icon-warning-sign
+
+    .container
+      %h1.editable{ data: { bind: 'title' } }= @title
+      %div.editable{ data: { bind: 'body' } }= @body
+
+    %script{ src: 'http://code.jquery.com/jquery.min.js' }
+    %script{ src: "//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js" }
+    %script{ src: '/js/jquery.htmlClean.min.js' }
+    %script{ src: '/js/fondant.js' }
+    %script{ src: '/js/app.js' }
+

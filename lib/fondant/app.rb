@@ -8,10 +8,16 @@ module Fondant
     end
 
     get '/' do
-      @title = @store.get('title')
       @body = @store.get('body')
 
       haml :index
+    end
+
+    get '/without-plugin' do
+      @title = @store.get('title')
+      @body = @store.get('body')
+
+      haml :without_plugin
     end
 
     post '/update/:field' do
