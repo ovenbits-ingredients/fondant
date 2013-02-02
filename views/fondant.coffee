@@ -1,8 +1,7 @@
 # ## Fondant
 #
-# HTML5 WYSIWYG Editor
-#
-# Fondant is the icing on the cake for user input.
+# The icing on the cake for user input. A simple jQuery HTML5 WYSIWYG editor
+# using `contenteditable`.
 #
 # &copy; 2013 [Phillip Ridlen][1] & [Oven Bits, LLC][2]
 #
@@ -43,13 +42,12 @@ $ ->
   # Defines the `Fondant` class that will be instantiated when `$.fn.fondant`
   # is called.
   #
-  Fondant = (element, options) -> @init 'fondant', element, options
-
-  Fondant.prototype =
+  class Fondant
 
     # ## Methods
 
-    constructor: Fondant
+    constructor: (element, options) ->
+      @init('fondant', element, options)
 
     # ### init( type, element, options )
     #
@@ -299,8 +297,6 @@ $ ->
         data[option]()
 
       data.getElement()
-
-  $.fn.fondant.Contstructor = Fondant
 
   # ### Defaults
   #
