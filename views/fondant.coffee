@@ -3,12 +3,17 @@
 # The icing on the cake for user input. A simple jQuery HTML5 WYSIWYG editor
 # using `contenteditable`.
 #
+#
 # &copy; 2013 [Phillip Ridlen][1] & [Oven Bits, LLC][2]
 #
 #   [1]: http://phillipridlen.com
 #   [2]: http://ovenbits.com
 
-
+# ## Requirements
+#
+# * jQuery (tested with 1.9.1)
+# * A modern-ish browser (IE9+)
+#
 # ## Usage
 #
 # ### Instantiation
@@ -58,6 +63,7 @@ $ ->
     # * `type` - should always be 'fondant' (see constructor above)
     # * `element` - enable the Fondant editor for this element
     # * `options` - overrides for the default options
+    # * `toolbar` -
     #
     init: (type, element, options) ->
       @id = new Date().getTime()
@@ -65,22 +71,26 @@ $ ->
       @$element = $(element)
       @options = @getOptions(options)
 
-      if ( @$element.prop('tagName').toLowerCase() == 'textarea' )
-        @textarea = @$element.clone()
-
       @format.fondant = this
       @templates.fondant = this
 
+      if ( @$element.prop('tagName').toLowerCase() == 'textarea' )
+        @textarea = @$element.clone()
+        @replaceTextareaWithDiv()
+
       @makeEditable()
       @insertToolbar()
+      @bindToolbar()
 
     # ### destroy()
     #
     # Destroy the Fondant editor and any elements created by it
     #
     destroy: ->
+      @unbindToolbar()
       @removeToolbar()
       @makeUneditable()
+      @replaceDivWithTextarea() if @textarea
       @$element.removeData(@type)
 
     # ### insertToolbar()
@@ -88,18 +98,35 @@ $ ->
     # Add the formatting toolbar and bind the editor functions
     #
     insertToolbar: ->
-      console.log "Inserting toolbar... (j/k)"
+      @$element.prepend(@templates.toolbar()) unless @options.toolbar
+
+    # ### bindToolbar()
+    #
+    # Bind toolbar click events to their respective actions
+    #
+    bindToolbar: ->
+      for action in @format.actions
+        $("[data-action='#{ @type }-#{ action }']").on 'click.fondant',
+          $.proxy(@format[action], this)
+
+    # ### unbindToolbar()
+    #
+    # Remove all toolbar events. If the default Fondant toolbar was generated,
+    # this is not needed since the DOM elements will be destroyed
+    #
+    unbindToolbar: ->
+      $("[data-action^='#{ @type }-']").off('.fondant') if @options.toolbar
 
     # ### removeToolbar()
     #
-    # Remove the formatting toolbar and unbind the editor functions
+    # Remove the formatting toolbar and unbind the editor functions.
     #
     removeToolbar: ->
-      console.log "Removing toolbar... (j/k)"
+      @$element.find(@options.prefix + "-toolbar").remove() unless @options.toolbar
 
     # ### getElement()
     #
-    # Get the actual underlying DOM element
+    # Get the actual underlying DOM (not jQuery) element
     #
     getElement: ->
       @$element.get(0)
@@ -121,8 +148,8 @@ $ ->
     # `<div>` first.
     #
     makeEditable: ->
-      @$element = @replaceTextareaWithDiv(@$element) if @textarea
       @$element.attr 'contenteditable', 'true'
+      @$element = @wrapEditorContent()
 
     # ### makeUneditable()
     #
@@ -130,7 +157,7 @@ $ ->
     # originally a `<textarea>`, convert it back.
     #
     makeUneditable: ->
-      @$element = @replaceDivWithTextarea() if @textarea
+      @$element = @unwrapEditorContent()
       @$element.attr 'contenteditable', 'false'
 
     # ### replaceElement( $old, fresh )
@@ -152,7 +179,7 @@ $ ->
       _this = this
       html = @$element.html()
 
-      @$element = @replaceElement(@$element, @textarea)
+      @replaceElement(@$element, @textarea)
       @$element.data(@type, _this)
       @$element.val(html) if keep_changes
 
@@ -167,38 +194,79 @@ $ ->
     replaceTextareaWithDiv: ->
       if @textarea
         _this = this
-        @$element = @replaceElement(@$element, @templates.editor())
-        @$element.data(@type, _this)
-        @$element.html(@textarea.val())
+        @$element = @replaceElement @$element, @templates.editorContent()
+        @$element.data @type, _this
+        @$element.html @textarea.val()
 
+      @$element
+
+    # ### unwrapEditorContent()
+    #
+    # Undoes what happens in `wrapEditorContent()`.
+    #
+    unwrapEditorContent: ->
+      _this = this
+      $wrap = @$element
+      @$element = @replaceElement @$element, @$original_element
+      @$element.data @type, _this
+      $wrap.remove()
+
+      @$element
+
+    # ### wrapEditorContent()
+    #
+    # Wraps the current `@$element` with another, outer `<div>` so we can insert the toolbar
+    #
+    wrapEditorContent: ->
+      _this = this
+      @$original_element = @$element
+      @$element = @$element.wrap(@templates.editor()).parent()
+      @$element.data @type, _this
+      @$original_element.removeData @type
+
+      @$element
+
+    # ### applyFormat( command, value )
+    #
+    # Applies a rich text editor command to selection or block. Available
+    # commands are [listed on the MDN website][1].
+    #
+    #   [1]: https://developer.mozilla.org/en-US/docs/Rich-Text_Editing_in_Mozilla
+    #
+    applyFormat: ( command, value ) ->
+      document.execCommand command, false, value
 
     # ## Formatting Functions
     #
-    # These are the functions that make the magic happen.
+    # This is where the magic happens.
     #
     format:
-      # ### format.apply( command, value )
-      #
-      # Applies a rich text editor command to selection or block. Available
-      # commands are [listed on the MDN website][1].
-      #
-      #   [1]: https://developer.mozilla.org/en-US/docs/Rich-Text_Editing_in_Mozilla
-      #
-      apply: (command, value) ->
-        document.execCommand command, false, value
+      actions: [
+        'remove',
+        'bold', 'italic',
+        'p', 'h1', 'h2', 'h3', 'h4', 'blockquote',
+        'ol', 'ul', 'indent', 'outdent',
+        'custom'
+      ]
 
       # ### format.remove()
       #
       # Remove all formatting for selection
       #
-      remove: -> @apply 'removeFormat'
+      remove: -> @applyFormat 'removeFormat'
+
+      # ### format.custom( html )
+      #
+      # For hooking in custom actions.
+      #
+      custom: (html) -> console.log "Custom HTML not yet implemented"
 
       # ### Text Styles
       #
       # * `format.bold()`
       # * `format.italic()`
-      bold:   -> @apply 'bold'
-      italic: -> @apply 'italic'
+      bold:   -> @applyFormat 'bold'
+      italic: -> @applyFormat 'italic'
 
       # ### Block Formats
       #
@@ -211,12 +279,12 @@ $ ->
       # * `format.h4()`
       # * `format.blockquote()`
       #
-      p:  -> @apply 'formatBlock', '<p>'
-      h1: -> @apply 'formatBlock', '<h1>'
-      h2: -> @apply 'formatBlock', '<h2>'
-      h3: -> @apply 'formatBlock', '<h3>'
-      h4: -> @apply 'formatBlock', '<h4>'
-      blockquote: -> @apply 'formatBlock', '<blockquote>'
+      p:  -> @applyFormat 'formatBlock', '<p>'
+      h1: -> @applyFormat 'formatBlock', '<h1>'
+      h2: -> @applyFormat 'formatBlock', '<h2>'
+      h3: -> @applyFormat 'formatBlock', '<h3>'
+      h4: -> @applyFormat 'formatBlock', '<h4>'
+      blockquote: -> @applyFormat 'formatBlock', '<blockquote>'
 
       # ### Lists and Indentation
       #
@@ -225,43 +293,41 @@ $ ->
       # * `format.indent()`
       # * `format.outdent()`
       #
-      ol:       -> @apply 'insertOrderedList'
-      ul:       -> @apply 'insertUnorderedList'
-      indent:   -> @apply 'indent'
-      outdent:  -> @apply 'outdent'
+      ol:       -> @applyFormat 'insertOrderedList'
+      ul:       -> @applyFormat 'insertUnorderedList'
+      indent:   -> @applyFormat 'indent'
+      outdent:  -> @applyFormat 'outdent'
 
       # ### Undo/Redo
       #
       # * `format.undo()`
       # * `format.redo()`
       #
-      undo: -> @apply 'undo'
-      redo: -> @apply 'redo'
-
-      # ### Links
-      #
-      # * `format.link( url )`
-      # * `format.unlink()`
-      #
-      link: (url) -> @apply 'createLink', url
-      unlink:     -> @apply 'unlink'
-
+      undo: -> @applyFormat 'undo'
+      redo: -> @applyFormat 'redo'
 
     # ## HTML Templates
     #
     # Templates for inserted html elements
     templates:
 
-      # ### templates.editor()
+      editor: ->
+        prefix = @fondant.options.prefix
+        id = "#{ prefix }-#{ @fondant.id }"
+
+        """
+        <div class="#{ prefix }-editor" id="#{ id }">
+        </div>
+        """
+
+      # ### templates.editorContent()
       #
       # If a `<textarea>` is being swapped out for a `<div>`, this is the
       # function we'll use to generate the editor.
       #
-      editor: ->
+      editorContent: ->
         """
-        <div
-          class="#{ @fondant.options.prefix }-editor"
-          id="#{ @fondant.options.prefix }-#{ @fondant.id }">
+        <div class="#{ @fondant.options.prefix }-editor-content">
         </div>
         """
 
@@ -269,7 +335,7 @@ $ ->
       #
       toolbar: ->
         """
-        <div class="#{ @fondant.options.prefix }-toolbar" id="#{ @fondant.options.prefix }-#{ @fondant.id }">
+        <div class="#{ @fondant.options.prefix }-toolbar">
           <ul>
             <li><a href="#" data-action="#{ @fondant.type }-bold">B</a></li>
             <li><a href="#" data-action="#{ @fondant.type }-italic">I</a></li>

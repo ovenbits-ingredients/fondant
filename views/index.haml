@@ -27,5 +27,13 @@
     %script{ src: "//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js" }
     %script{ src: '/js/jquery.htmlClean.min.js' }
     %script{ src: '/js/fondant.js' }
-    %script{ src: '/js/app.js' }
+    :javascript
+      $(function() {
+
+        $('.actions a.power').on('click', function() {
+          $('textarea').fondant();
+        });
+
+      });
+
 
