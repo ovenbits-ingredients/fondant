@@ -347,8 +347,32 @@ $ ->
         """
         <div class="#{ @fondant.options.prefix }-toolbar">
           <ul>
-            <li><a href="#" data-action="#{ @fondant.type }-bold">B</a></li>
-            <li><a href="#" data-action="#{ @fondant.type }-italic">I</a></li>
+            <li>Text Styles</li>
+            <ul>
+              <li><a href="#" data-action="#{ @fondant.type }-bold">B</a></li>
+              <li><a href="#" data-action="#{ @fondant.type }-italic">I</a></li>
+            </ul>
+            <li>Block Styles</li>
+            <ul>
+              <li><a href="#" data-action="#{ @fondant.type }-paragraph">P</a></li>
+              <li><a href="#" data-action="#{ @fondant.type }-h1">H1</a></li>
+              <li><a href="#" data-action="#{ @fondant.type }-h2">H2</a></li>
+              <li><a href="#" data-action="#{ @fondant.type }-h3">H3</a></li>
+              <li><a href="#" data-action="#{ @fondant.type }-h4">H4</a></li>
+              <li><a href="#" data-action="#{ @fondant.type }-blockquote">Quote</a></li>
+            </ul>
+            <li>Lists</li>
+            <ul>
+              <li><a href="#" data-action="#{ @fondant.type }-ol">Numbers</a></li>
+              <li><a href="#" data-action="#{ @fondant.type }-ul">Bullets</a></li>
+              <li><a href="#" data-action="#{ @fondant.type }-indent">Increase Indent</a></li>
+              <li><a href="#" data-action="#{ @fondant.type }-outdent">Decrease Indent</a></li>
+            </ul>
+            <li>Undo/Redo</li>
+            <ul>
+              <li><a href="#" data-action="#{ @fondant.type }-und">Undo</a></li>
+              <li><a href="#" data-action="#{ @fondant.type }-redo">Redo</a></li>
+            </ul>
           </ul>
         </div>
         """
