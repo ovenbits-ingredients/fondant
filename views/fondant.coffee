@@ -74,23 +74,24 @@ $ ->
       @templates.fondant = this
 
       if ( @$element.prop('tagName').toLowerCase() == 'textarea' )
-        @textarea = @$element.clone()
+        @textarea = @$element
         @replaceTextareaWithDiv()
 
       @makeEditable()
       @insertToolbar()
       @bindToolbar()
 
-    # ### destroy()
+    # ### destroy( save = true )
     #
     # Destroy the Fondant editor and any elements created by it
     #
-    destroy: ->
+    destroy: ( keep_changes = true ) ->
       @unbindToolbar()
       @removeToolbar()
       @makeUneditable()
-      @replaceDivWithTextarea() if @textarea
+      @replaceDivWithTextarea(keep_changes) if @textarea
       @$element.removeData(@type)
+      delete @
 
     # ### insertToolbar()
     #
@@ -175,11 +176,10 @@ $ ->
     # Essentially reverses the process of `replaceTextareaWithDiv`.
     #
     replaceDivWithTextarea: ( keep_changes = true ) ->
-      _this = this
       html = @$element.html()
 
-      @replaceElement(@$element, @textarea)
-      @$element.data(@type, _this)
+      @$element = @replaceElement(@$element, @textarea)
+      @$element.data(@type, this)
       @$element.val(html) if keep_changes
 
       @$element
@@ -192,9 +192,9 @@ $ ->
     #
     replaceTextareaWithDiv: ->
       if @textarea
-        _this = this
         @$element = @replaceElement @$element, @templates.editorContent()
-        @$element.data @type, _this
+        @$element.data @type, this
+        @$element.addClass(@textarea.attr('class'))
         @$element.html @textarea.val()
 
       @$element
@@ -204,11 +204,14 @@ $ ->
     # Undoes what happens in `wrapEditorContent()`.
     #
     unwrapEditorContent: ->
-      _this = this
       $wrap = @$element
-      @$element = @replaceElement @$element, @$original_element
-      @$element.data @type, _this
+      @$element = @replaceElement @$element, @$element.find(".#{ @templates.editorContentClass() }")
+      @$element.data @type, this
+      @$element.addClass @templates.editorClass()
       $wrap.remove()
+
+      if @textarea
+        @$element.addClass(@textarea.attr 'class')
 
       @$element
 
@@ -217,11 +220,16 @@ $ ->
     # Wraps the current `@$element` with another, outer `<div>` so we can insert the toolbar
     #
     wrapEditorContent: ->
-      _this = this
-      @$original_element = @$element
+      $original_element = @$element
       @$element = @$element.wrap(@templates.editor()).parent()
-      @$element.data @type, _this
-      @$original_element.removeData @type
+      @$element.data @type, this
+      @$element.addClass($original_element.attr 'class').removeClass(@templates.editorContentClass())
+
+      $original_element.removeClass @templates.editorClass()
+      $original_element.removeData @type
+
+      if @textarea
+        $original_element.removeClass(@textarea.attr 'class')
 
       @$element
 
@@ -244,7 +252,7 @@ $ ->
     # Array of all the possible formatting actions to take
     #
     actions: [
-      'remove',
+      'remove', 'undo', 'redo',
       'bold', 'italic',
       'p', 'h1', 'h2', 'h3', 'h4', 'blockquote',
       'ol', 'ul', 'indent', 'outdent',
@@ -304,29 +312,27 @@ $ ->
     indent:   -> @applyFormat 'indent'
     outdent:  -> @applyFormat 'outdent'
 
-    # ### Undo/Redo
-    #
-    # * `undo()`
-    # * `redo()`
-    #
-    undo: -> @applyFormat 'undo'
-    redo: -> @applyFormat 'redo'
-
     # ## HTML Templates
     #
     # Templates for inserted html elements
     templates:
+
+      editorClass: ->
+        "#{ @fondant.options.prefix }-editor"
+      editorContentClass: ->
+        "#{ @editorClass() }-content"
+      toolbarClass: ->
+        "#{ @fondant.options.prefix }-toolbar"
 
       # ### templates.editor()
       #
       # Outer element to wrap the `contenteditable` region so we can insert the toolbar.
       #
       editor: ->
-        prefix = @fondant.options.prefix
-        id = "#{ prefix }-#{ @fondant.id }"
+        id = "#{ @fondant.options.prefix }-#{ @fondant.id }"
 
         """
-        <div class="#{ prefix }-editor" id="#{ id }">
+        <div class="#{ @editorClass() }" id="#{ id }">
         </div>
         """
 
@@ -337,7 +343,7 @@ $ ->
       #
       editorContent: ->
         """
-        <div class="#{ @fondant.options.prefix }-editor-content">
+        <div class="#{ @editorClass()} #{ @editorContentClass() }">
         </div>
         """
 
@@ -345,7 +351,7 @@ $ ->
       #
       toolbar: ->
         """
-        <div class="#{ @fondant.options.prefix }-toolbar">
+        <div class="#{ @toolbarClass() }">
           <ul>
             <li>Text Styles</li>
             <ul>
@@ -354,7 +360,7 @@ $ ->
             </ul>
             <li>Block Styles</li>
             <ul>
-              <li><a href="#" data-action="#{ @fondant.type }-paragraph">P</a></li>
+              <li><a href="#" data-action="#{ @fondant.type }-p">P</a></li>
               <li><a href="#" data-action="#{ @fondant.type }-h1">H1</a></li>
               <li><a href="#" data-action="#{ @fondant.type }-h2">H2</a></li>
               <li><a href="#" data-action="#{ @fondant.type }-h3">H3</a></li>
@@ -367,11 +373,6 @@ $ ->
               <li><a href="#" data-action="#{ @fondant.type }-ul">Bullets</a></li>
               <li><a href="#" data-action="#{ @fondant.type }-indent">Increase Indent</a></li>
               <li><a href="#" data-action="#{ @fondant.type }-outdent">Decrease Indent</a></li>
-            </ul>
-            <li>Undo/Redo</li>
-            <ul>
-              <li><a href="#" data-action="#{ @fondant.type }-und">Undo</a></li>
-              <li><a href="#" data-action="#{ @fondant.type }-redo">Redo</a></li>
             </ul>
           </ul>
         </div>

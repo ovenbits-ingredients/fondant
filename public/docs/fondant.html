@@ -59,19 +59,20 @@ is called.</p>             </td>             <td class="code">               <di
       <span class="vi">@templates.fondant = </span><span class="k">this</span>
 
       <span class="k">if</span> <span class="p">(</span> <span class="nx">@$element</span><span class="p">.</span><span class="nx">prop</span><span class="p">(</span><span class="s">&#39;tagName&#39;</span><span class="p">).</span><span class="nx">toLowerCase</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;textarea&#39;</span> <span class="p">)</span>
-        <span class="vi">@textarea = </span><span class="nx">@$element</span><span class="p">.</span><span class="nx">clone</span><span class="p">()</span>
+        <span class="vi">@textarea = </span><span class="nx">@$element</span>
         <span class="nx">@replaceTextareaWithDiv</span><span class="p">()</span>
 
       <span class="nx">@makeEditable</span><span class="p">()</span>
       <span class="nx">@insertToolbar</span><span class="p">()</span>
-      <span class="nx">@bindToolbar</span><span class="p">()</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <h3>destroy()</h3>
+      <span class="nx">@bindToolbar</span><span class="p">()</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <h3>destroy( save = true )</h3>
 
-<p>Destroy the Fondant editor and any elements created by it</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nv">destroy: </span><span class="o">-&gt;</span>
+<p>Destroy the Fondant editor and any elements created by it</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nv">destroy: </span><span class="nf">( keep_changes = true ) -&gt;</span>
       <span class="nx">@unbindToolbar</span><span class="p">()</span>
       <span class="nx">@removeToolbar</span><span class="p">()</span>
       <span class="nx">@makeUneditable</span><span class="p">()</span>
-      <span class="nx">@replaceDivWithTextarea</span><span class="p">()</span> <span class="k">if</span> <span class="nx">@textarea</span>
-      <span class="nx">@$element</span><span class="p">.</span><span class="nx">removeData</span><span class="p">(</span><span class="nx">@type</span><span class="p">)</span></pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <h3>insertToolbar()</h3>
+      <span class="nx">@replaceDivWithTextarea</span><span class="p">(</span><span class="nx">keep_changes</span><span class="p">)</span> <span class="k">if</span> <span class="nx">@textarea</span>
+      <span class="nx">@$element</span><span class="p">.</span><span class="nx">removeData</span><span class="p">(</span><span class="nx">@type</span><span class="p">)</span>
+      <span class="k">delete</span> <span class="nx">@</span></pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <h3>insertToolbar()</h3>
 
 <p>Add the formatting toolbar and bind the editor functions</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nv">insertToolbar: </span><span class="o">-&gt;</span>
       <span class="nx">@$element</span><span class="p">.</span><span class="nx">prepend</span><span class="p">(</span><span class="nx">@templates</span><span class="p">.</span><span class="nx">toolbar</span><span class="p">())</span> <span class="k">if</span> <span class="nx">@options</span><span class="p">.</span><span class="nx">toolbar</span></pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <h3>bindToolbar()</h3>
@@ -116,11 +117,10 @@ jQuery element.</p>             </td>             <td class="code">             
 <p>Swaps out the the <code>&lt;div&gt;</code> for a <code>&lt;textarea&gt;</code>, returning the original's
 attributes. If keep_changes is false, put the original content back in.
 Essentially reverses the process of <code>replaceTextareaWithDiv</code>.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nv">replaceDivWithTextarea: </span><span class="nf">( keep_changes = true ) -&gt;</span>
-      <span class="nv">_this = </span><span class="k">this</span>
       <span class="nv">html = </span><span class="nx">@$element</span><span class="p">.</span><span class="nx">html</span><span class="p">()</span>
 
-      <span class="nx">@replaceElement</span><span class="p">(</span><span class="nx">@$element</span><span class="p">,</span> <span class="nx">@textarea</span><span class="p">)</span>
-      <span class="nx">@$element</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="nx">@type</span><span class="p">,</span> <span class="nx">_this</span><span class="p">)</span>
+      <span class="vi">@$element = </span><span class="nx">@replaceElement</span><span class="p">(</span><span class="nx">@$element</span><span class="p">,</span> <span class="nx">@textarea</span><span class="p">)</span>
+      <span class="nx">@$element</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="nx">@type</span><span class="p">,</span> <span class="k">this</span><span class="p">)</span>
       <span class="nx">@$element</span><span class="p">.</span><span class="nx">val</span><span class="p">(</span><span class="nx">html</span><span class="p">)</span> <span class="k">if</span> <span class="nx">keep_changes</span>
 
       <span class="nx">@$element</span></pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <h3>replaceTextareaWithDiv()</h3>
@@ -129,28 +129,36 @@ Essentially reverses the process of <code>replaceTextareaWithDiv</code>.</p>    
 Saves the <code>&lt;textarea&gt;</code>'s value and attributes so it can be restored when
 the editor gets canceled/destroyed.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nv">replaceTextareaWithDiv: </span><span class="o">-&gt;</span>
       <span class="k">if</span> <span class="nx">@textarea</span>
-        <span class="nv">_this = </span><span class="k">this</span>
         <span class="vi">@$element = </span><span class="nx">@replaceElement</span> <span class="nx">@$element</span><span class="p">,</span> <span class="nx">@templates</span><span class="p">.</span><span class="nx">editorContent</span><span class="p">()</span>
-        <span class="nx">@$element</span><span class="p">.</span><span class="nx">data</span> <span class="nx">@type</span><span class="p">,</span> <span class="nx">_this</span>
+        <span class="nx">@$element</span><span class="p">.</span><span class="nx">data</span> <span class="nx">@type</span><span class="p">,</span> <span class="k">this</span>
+        <span class="nx">@$element</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="nx">@textarea</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s">&#39;class&#39;</span><span class="p">))</span>
         <span class="nx">@$element</span><span class="p">.</span><span class="nx">html</span> <span class="nx">@textarea</span><span class="p">.</span><span class="nx">val</span><span class="p">()</span>
 
       <span class="nx">@$element</span></pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <h3>unwrapEditorContent()</h3>
 
 <p>Undoes what happens in <code>wrapEditorContent()</code>.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nv">unwrapEditorContent: </span><span class="o">-&gt;</span>
-      <span class="nv">_this = </span><span class="k">this</span>
       <span class="nv">$wrap = </span><span class="nx">@$element</span>
-      <span class="vi">@$element = </span><span class="nx">@replaceElement</span> <span class="nx">@$element</span><span class="p">,</span> <span class="nx">@$original_element</span>
-      <span class="nx">@$element</span><span class="p">.</span><span class="nx">data</span> <span class="nx">@type</span><span class="p">,</span> <span class="nx">_this</span>
+      <span class="vi">@$element = </span><span class="nx">@replaceElement</span> <span class="nx">@$element</span><span class="p">,</span> <span class="nx">@$element</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s">&quot;.</span><span class="si">#{</span> <span class="nx">@templates</span><span class="p">.</span><span class="nx">editorContentClass</span><span class="p">()</span> <span class="si">}</span><span class="s">&quot;</span><span class="p">)</span>
+      <span class="nx">@$element</span><span class="p">.</span><span class="nx">data</span> <span class="nx">@type</span><span class="p">,</span> <span class="k">this</span>
+      <span class="nx">@$element</span><span class="p">.</span><span class="nx">addClass</span> <span class="nx">@templates</span><span class="p">.</span><span class="nx">editorClass</span><span class="p">()</span>
       <span class="nx">$wrap</span><span class="p">.</span><span class="nx">remove</span><span class="p">()</span>
+
+      <span class="k">if</span> <span class="nx">@textarea</span>
+        <span class="nx">@$element</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="nx">@textarea</span><span class="p">.</span><span class="nx">attr</span> <span class="s">&#39;class&#39;</span><span class="p">)</span>
 
       <span class="nx">@$element</span></pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <h3>wrapEditorContent()</h3>
 
 <p>Wraps the current <code>@$element</code> with another, outer <code>&lt;div&gt;</code> so we can insert the toolbar</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nv">wrapEditorContent: </span><span class="o">-&gt;</span>
-      <span class="nv">_this = </span><span class="k">this</span>
-      <span class="vi">@$original_element = </span><span class="nx">@$element</span>
+      <span class="nv">$original_element = </span><span class="nx">@$element</span>
       <span class="vi">@$element = </span><span class="nx">@$element</span><span class="p">.</span><span class="nx">wrap</span><span class="p">(</span><span class="nx">@templates</span><span class="p">.</span><span class="nx">editor</span><span class="p">()).</span><span class="nx">parent</span><span class="p">()</span>
-      <span class="nx">@$element</span><span class="p">.</span><span class="nx">data</span> <span class="nx">@type</span><span class="p">,</span> <span class="nx">_this</span>
-      <span class="nx">@$original_element</span><span class="p">.</span><span class="nx">removeData</span> <span class="nx">@type</span>
+      <span class="nx">@$element</span><span class="p">.</span><span class="nx">data</span> <span class="nx">@type</span><span class="p">,</span> <span class="k">this</span>
+      <span class="nx">@$element</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="nx">$original_element</span><span class="p">.</span><span class="nx">attr</span> <span class="s">&#39;class&#39;</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="nx">@templates</span><span class="p">.</span><span class="nx">editorContentClass</span><span class="p">())</span>
+
+      <span class="nx">$original_element</span><span class="p">.</span><span class="nx">removeClass</span> <span class="nx">@templates</span><span class="p">.</span><span class="nx">editorClass</span><span class="p">()</span>
+      <span class="nx">$original_element</span><span class="p">.</span><span class="nx">removeData</span> <span class="nx">@type</span>
+
+      <span class="k">if</span> <span class="nx">@textarea</span>
+        <span class="nx">$original_element</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span><span class="nx">@textarea</span><span class="p">.</span><span class="nx">attr</span> <span class="s">&#39;class&#39;</span><span class="p">)</span>
 
       <span class="nx">@$element</span></pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <h3>applyFormat( command, value )</h3>
 
@@ -161,7 +169,7 @@ commands are <a href="https://developer.mozilla.org/en-US/docs/Rich-Text_Editing
 <p>This is where the magic happens.</p>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <h3>actions</h3>
 
 <p>Array of all the possible formatting actions to take</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nv">actions: </span><span class="p">[</span>
-      <span class="s">&#39;remove&#39;</span><span class="p">,</span>
+      <span class="s">&#39;remove&#39;</span><span class="p">,</span> <span class="s">&#39;undo&#39;</span><span class="p">,</span> <span class="s">&#39;redo&#39;</span><span class="p">,</span>
       <span class="s">&#39;bold&#39;</span><span class="p">,</span> <span class="s">&#39;italic&#39;</span><span class="p">,</span>
       <span class="s">&#39;p&#39;</span><span class="p">,</span> <span class="s">&#39;h1&#39;</span><span class="p">,</span> <span class="s">&#39;h2&#39;</span><span class="p">,</span> <span class="s">&#39;h3&#39;</span><span class="p">,</span> <span class="s">&#39;h4&#39;</span><span class="p">,</span> <span class="s">&#39;blockquote&#39;</span><span class="p">,</span>
       <span class="s">&#39;ol&#39;</span><span class="p">,</span> <span class="s">&#39;ul&#39;</span><span class="p">,</span> <span class="s">&#39;indent&#39;</span><span class="p">,</span> <span class="s">&#39;outdent&#39;</span><span class="p">,</span>
@@ -206,33 +214,33 @@ commands are <a href="https://developer.mozilla.org/en-US/docs/Rich-Text_Editing
 </ul>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nv">ol: </span>      <span class="o">-&gt;</span> <span class="nx">@applyFormat</span> <span class="s">&#39;insertOrderedList&#39;</span>
     <span class="nv">ul: </span>      <span class="o">-&gt;</span> <span class="nx">@applyFormat</span> <span class="s">&#39;insertUnorderedList&#39;</span>
     <span class="nv">indent: </span>  <span class="o">-&gt;</span> <span class="nx">@applyFormat</span> <span class="s">&#39;indent&#39;</span>
-    <span class="nv">outdent: </span> <span class="o">-&gt;</span> <span class="nx">@applyFormat</span> <span class="s">&#39;outdent&#39;</span></pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <h3>Undo/Redo</h3>
+    <span class="nv">outdent: </span> <span class="o">-&gt;</span> <span class="nx">@applyFormat</span> <span class="s">&#39;outdent&#39;</span></pre></div>             </td>           </tr>                               <tr id="section-28">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-28">&#182;</a>               </div>               <h2>HTML Templates</h2>
 
-<ul>
-<li><code>undo()</code></li>
-<li><code>redo()</code></li>
-</ul>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nv">undo: </span><span class="o">-&gt;</span> <span class="nx">@applyFormat</span> <span class="s">&#39;undo&#39;</span>
-    <span class="nv">redo: </span><span class="o">-&gt;</span> <span class="nx">@applyFormat</span> <span class="s">&#39;redo&#39;</span></pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <h2>HTML Templates</h2>
+<p>Templates for inserted html elements</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nv">templates:</span>
 
-<p>Templates for inserted html elements</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nv">templates:</span></pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <h3>templates.editor()</h3>
+      <span class="nv">editorClass: </span><span class="o">-&gt;</span>
+        <span class="s">&quot;</span><span class="si">#{</span> <span class="nx">@fondant</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">prefix</span> <span class="si">}</span><span class="s">-editor&quot;</span>
+      <span class="nv">editorContentClass: </span><span class="o">-&gt;</span>
+        <span class="s">&quot;</span><span class="si">#{</span> <span class="nx">@editorClass</span><span class="p">()</span> <span class="si">}</span><span class="s">-content&quot;</span>
+      <span class="nv">toolbarClass: </span><span class="o">-&gt;</span>
+        <span class="s">&quot;</span><span class="si">#{</span> <span class="nx">@fondant</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">prefix</span> <span class="si">}</span><span class="s">-toolbar&quot;</span></pre></div>             </td>           </tr>                               <tr id="section-29">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-29">&#182;</a>               </div>               <h3>templates.editor()</h3>
 
 <p>Outer element to wrap the <code>contenteditable</code> region so we can insert the toolbar.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="nv">editor: </span><span class="o">-&gt;</span>
-        <span class="nv">prefix = </span><span class="nx">@fondant</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">prefix</span>
-        <span class="nv">id = </span><span class="s">&quot;</span><span class="si">#{</span> <span class="nx">prefix</span> <span class="si">}</span><span class="s">-</span><span class="si">#{</span> <span class="nx">@fondant</span><span class="p">.</span><span class="nx">id</span> <span class="si">}</span><span class="s">&quot;</span>
+        <span class="nv">id = </span><span class="s">&quot;</span><span class="si">#{</span> <span class="nx">@fondant</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">prefix</span> <span class="si">}</span><span class="s">-</span><span class="si">#{</span> <span class="nx">@fondant</span><span class="p">.</span><span class="nx">id</span> <span class="si">}</span><span class="s">&quot;</span>
 
         <span class="s">&quot;&quot;&quot;</span>
-<span class="s">        &lt;div class=&quot;</span><span class="si">#{</span> <span class="nx">prefix</span> <span class="si">}</span><span class="s">-editor&quot; id=&quot;</span><span class="si">#{</span> <span class="nx">id</span> <span class="si">}</span><span class="s">&quot;&gt;</span>
+<span class="s">        &lt;div class=&quot;</span><span class="si">#{</span> <span class="nx">@editorClass</span><span class="p">()</span> <span class="si">}</span><span class="s">&quot; id=&quot;</span><span class="si">#{</span> <span class="nx">id</span> <span class="si">}</span><span class="s">&quot;&gt;</span>
 <span class="s">        &lt;/div&gt;</span>
-<span class="s">        &quot;&quot;&quot;</span></pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <h3>templates.editorContent()</h3>
+<span class="s">        &quot;&quot;&quot;</span></pre></div>             </td>           </tr>                               <tr id="section-30">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-30">&#182;</a>               </div>               <h3>templates.editorContent()</h3>
 
 <p>If a <code>&lt;textarea&gt;</code> is being swapped out for a <code>&lt;div&gt;</code>, this is the
 function we'll use to generate the editor.</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="nv">editorContent: </span><span class="o">-&gt;</span>
         <span class="s">&quot;&quot;&quot;</span>
-<span class="s">        &lt;div class=&quot;</span><span class="si">#{</span> <span class="nx">@fondant</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">prefix</span> <span class="si">}</span><span class="s">-editor-content&quot;&gt;</span>
+<span class="s">        &lt;div class=&quot;</span><span class="si">#{</span> <span class="nx">@editorClass</span><span class="p">()</span><span class="si">}</span><span class="s"> </span><span class="si">#{</span> <span class="nx">@editorContentClass</span><span class="p">()</span> <span class="si">}</span><span class="s">&quot;&gt;</span>
 <span class="s">        &lt;/div&gt;</span>
-<span class="s">        &quot;&quot;&quot;</span></pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <h3>templates.toolbar()</h3>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="nv">toolbar: </span><span class="o">-&gt;</span>
+<span class="s">        &quot;&quot;&quot;</span></pre></div>             </td>           </tr>                               <tr id="section-31">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-31">&#182;</a>               </div>               <h3>templates.toolbar()</h3>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="nv">toolbar: </span><span class="o">-&gt;</span>
         <span class="s">&quot;&quot;&quot;</span>
-<span class="s">        &lt;div class=&quot;</span><span class="si">#{</span> <span class="nx">@fondant</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">prefix</span> <span class="si">}</span><span class="s">-toolbar&quot;&gt;</span>
+<span class="s">        &lt;div class=&quot;</span><span class="si">#{</span> <span class="nx">@toolbarClass</span><span class="p">()</span> <span class="si">}</span><span class="s">&quot;&gt;</span>
 <span class="s">          &lt;ul&gt;</span>
 <span class="s">            &lt;li&gt;Text Styles&lt;/li&gt;</span>
 <span class="s">            &lt;ul&gt;</span>
@@ -241,7 +249,7 @@ function we'll use to generate the editor.</p>             </td>             <td
 <span class="s">            &lt;/ul&gt;</span>
 <span class="s">            &lt;li&gt;Block Styles&lt;/li&gt;</span>
 <span class="s">            &lt;ul&gt;</span>
-<span class="s">              &lt;li&gt;&lt;a href=&quot;</span><span class="err">#</span><span class="s">&quot; data-action=&quot;</span><span class="si">#{</span> <span class="nx">@fondant</span><span class="p">.</span><span class="nx">type</span> <span class="si">}</span><span class="s">-paragraph&quot;&gt;P&lt;/a&gt;&lt;/li&gt;</span>
+<span class="s">              &lt;li&gt;&lt;a href=&quot;</span><span class="err">#</span><span class="s">&quot; data-action=&quot;</span><span class="si">#{</span> <span class="nx">@fondant</span><span class="p">.</span><span class="nx">type</span> <span class="si">}</span><span class="s">-p&quot;&gt;P&lt;/a&gt;&lt;/li&gt;</span>
 <span class="s">              &lt;li&gt;&lt;a href=&quot;</span><span class="err">#</span><span class="s">&quot; data-action=&quot;</span><span class="si">#{</span> <span class="nx">@fondant</span><span class="p">.</span><span class="nx">type</span> <span class="si">}</span><span class="s">-h1&quot;&gt;H1&lt;/a&gt;&lt;/li&gt;</span>
 <span class="s">              &lt;li&gt;&lt;a href=&quot;</span><span class="err">#</span><span class="s">&quot; data-action=&quot;</span><span class="si">#{</span> <span class="nx">@fondant</span><span class="p">.</span><span class="nx">type</span> <span class="si">}</span><span class="s">-h2&quot;&gt;H2&lt;/a&gt;&lt;/li&gt;</span>
 <span class="s">              &lt;li&gt;&lt;a href=&quot;</span><span class="err">#</span><span class="s">&quot; data-action=&quot;</span><span class="si">#{</span> <span class="nx">@fondant</span><span class="p">.</span><span class="nx">type</span> <span class="si">}</span><span class="s">-h3&quot;&gt;H3&lt;/a&gt;&lt;/li&gt;</span>
@@ -255,14 +263,9 @@ function we'll use to generate the editor.</p>             </td>             <td
 <span class="s">              &lt;li&gt;&lt;a href=&quot;</span><span class="err">#</span><span class="s">&quot; data-action=&quot;</span><span class="si">#{</span> <span class="nx">@fondant</span><span class="p">.</span><span class="nx">type</span> <span class="si">}</span><span class="s">-indent&quot;&gt;Increase Indent&lt;/a&gt;&lt;/li&gt;</span>
 <span class="s">              &lt;li&gt;&lt;a href=&quot;</span><span class="err">#</span><span class="s">&quot; data-action=&quot;</span><span class="si">#{</span> <span class="nx">@fondant</span><span class="p">.</span><span class="nx">type</span> <span class="si">}</span><span class="s">-outdent&quot;&gt;Decrease Indent&lt;/a&gt;&lt;/li&gt;</span>
 <span class="s">            &lt;/ul&gt;</span>
-<span class="s">            &lt;li&gt;Undo/Redo&lt;/li&gt;</span>
-<span class="s">            &lt;ul&gt;</span>
-<span class="s">              &lt;li&gt;&lt;a href=&quot;</span><span class="err">#</span><span class="s">&quot; data-action=&quot;</span><span class="si">#{</span> <span class="nx">@fondant</span><span class="p">.</span><span class="nx">type</span> <span class="si">}</span><span class="s">-und&quot;&gt;Undo&lt;/a&gt;&lt;/li&gt;</span>
-<span class="s">              &lt;li&gt;&lt;a href=&quot;</span><span class="err">#</span><span class="s">&quot; data-action=&quot;</span><span class="si">#{</span> <span class="nx">@fondant</span><span class="p">.</span><span class="nx">type</span> <span class="si">}</span><span class="s">-redo&quot;&gt;Redo&lt;/a&gt;&lt;/li&gt;</span>
-<span class="s">            &lt;/ul&gt;</span>
 <span class="s">          &lt;/ul&gt;</span>
 <span class="s">        &lt;/div&gt;</span>
-<span class="s">        &quot;&quot;&quot;</span></pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <h2>Plugin Setup</h2>
+<span class="s">        &quot;&quot;&quot;</span></pre></div>             </td>           </tr>                               <tr id="section-32">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-32">&#182;</a>               </div>               <h2>Plugin Setup</h2>
 
 <h3>jQuery function property</h3>
 
@@ -281,7 +284,7 @@ function we'll use to generate the editor.</p>             </td>             <td
       <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">option</span> <span class="o">==</span> <span class="s">&#39;string&#39;</span><span class="p">)</span>
         <span class="nx">instance</span><span class="p">[</span><span class="nx">option</span><span class="p">].</span><span class="nx">apply</span><span class="p">(</span><span class="nx">instance</span><span class="p">,</span> <span class="nx">args</span><span class="p">)</span>
 
-      <span class="nx">instance</span><span class="p">.</span><span class="nx">getElement</span><span class="p">()</span></pre></div>             </td>           </tr>                               <tr id="section-34">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-34">&#182;</a>               </div>               <h3>Defaults</h3>
+      <span class="nx">instance</span><span class="p">.</span><span class="nx">getElement</span><span class="p">()</span></pre></div>             </td>           </tr>                               <tr id="section-33">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-33">&#182;</a>               </div>               <h3>Defaults</h3>
 
 <p>Allows user to set their own defaults without having to pass in their
 overrides on every instantiation</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">$.fn.fondant.defaults =</span>
