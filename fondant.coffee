@@ -91,7 +91,6 @@ $ ->
       @makeUneditable()
       @replaceDivWithTextarea(keep_changes) if @textarea
       @$element.removeData(@type)
-      delete @
 
     # ### focus()
     #
@@ -148,6 +147,16 @@ $ ->
         $.fn[@type].defaults,  # default options
         options,               # options passed in to the constructor
         @$element.data()       # options set in the element's `data` attribute
+
+    # ### value( html )
+    #
+    # Get the html from the editor, or if a value is passed in, set the html for the editor
+    #
+    value: ( html ) ->
+      if html == undefined
+        @$element.find('.' + @templates.editorContentClass()).html()
+      else
+        @$element.find('.' + @templates.editorContentClass()).html(html).html()
 
     # ### makeEditable()
     #
@@ -413,8 +422,9 @@ $ ->
 
       if (typeof option == 'string')
         instance[option].apply(instance, args)
+      else
+        instance.getElement()
 
-      instance.getElement()
 
   # ### Defaults
   #

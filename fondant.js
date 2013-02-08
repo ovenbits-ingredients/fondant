@@ -32,8 +32,7 @@
         this.removeToolbar();
         this.makeUneditable();
         if (this.textarea) this.replaceDivWithTextarea(keep_changes);
-        this.$element.removeData(this.type);
-        return delete this;
+        return this.$element.removeData(this.type);
       };
 
       Fondant.prototype.focus = function() {
@@ -75,6 +74,14 @@
 
       Fondant.prototype.getOptions = function(options) {
         return options = $.extend({}, $.fn[this.type].defaults, options, this.$element.data());
+      };
+
+      Fondant.prototype.value = function(html) {
+        if (html === void 0) {
+          return this.$element.find('.' + this.templates.editorContentClass()).html();
+        } else {
+          return this.$element.find('.' + this.templates.editorContentClass()).html(html).html();
+        }
       };
 
       Fondant.prototype.makeEditable = function() {
@@ -250,8 +257,11 @@
         if (!instance) {
           $this.data('fondant', (instance = new Fondant(this, options)));
         }
-        if (typeof option === 'string') instance[option].apply(instance, args);
-        return instance.getElement();
+        if (typeof option === 'string') {
+          return instance[option].apply(instance, args);
+        } else {
+          return instance.getElement();
+        }
       });
     };
     return $.fn.fondant.defaults = {
