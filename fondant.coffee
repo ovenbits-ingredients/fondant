@@ -373,32 +373,32 @@ $ ->
       # ### templates.toolbar()
       #
       toolbar: ->
+        group = @toolbarClass() + '-button-group'
+        button = @toolbarClass() + '-button'
         """
-        <div class="#{ @toolbarClass() }">
-          <ul>
-            <li>Text Styles</li>
-            <ul>
-              <li><a href="#" data-action="#{ @fondant.type }-bold">B</a></li>
-              <li><a href="#" data-action="#{ @fondant.type }-italic">I</a></li>
-            </ul>
-            <li>Block Styles</li>
-            <ul>
-              <li><a href="#" data-action="#{ @fondant.type }-p">P</a></li>
-              <li><a href="#" data-action="#{ @fondant.type }-h1">H1</a></li>
-              <li><a href="#" data-action="#{ @fondant.type }-h2">H2</a></li>
-              <li><a href="#" data-action="#{ @fondant.type }-h3">H3</a></li>
-              <li><a href="#" data-action="#{ @fondant.type }-h4">H4</a></li>
-              <li><a href="#" data-action="#{ @fondant.type }-blockquote">Quote</a></li>
-            </ul>
-            <li>Lists</li>
-            <ul>
-              <li><a href="#" data-action="#{ @fondant.type }-ol">Numbers</a></li>
-              <li><a href="#" data-action="#{ @fondant.type }-ul">Bullets</a></li>
-              <li><a href="#" data-action="#{ @fondant.type }-indent">Increase Indent</a></li>
-              <li><a href="#" data-action="#{ @fondant.type }-outdent">Decrease Indent</a></li>
-            </ul>
+        <ul class="#{ @toolbarClass() }">
+          <li class="#{ group }-label">Text Styles</li>
+          <ul class="#{ group }">
+            <li class="#{ button } #{ button }-bold"><a href="#" data-action="#{ @fondant.type }-bold">B</a></li>
+            <li class="#{ button } #{ button }-italic"><a href="#" data-action="#{ @fondant.type }-italic">I</a></li>
           </ul>
-        </div>
+          <li class="#{ group }-label">Block Styles</li>
+          <ul class="#{ group }">
+            <li class="#{ button } #{ button }-p"><a href="#" data-action="#{ @fondant.type }-p">P</a></li>
+            <li class="#{ button } #{ button }-h1"><a href="#" data-action="#{ @fondant.type }-h1">H1</a></li>
+            <li class="#{ button } #{ button }-h2"><a href="#" data-action="#{ @fondant.type }-h2">H2</a></li>
+            <li class="#{ button } #{ button }-h3"><a href="#" data-action="#{ @fondant.type }-h3">H3</a></li>
+            <li class="#{ button } #{ button }-h4"><a href="#" data-action="#{ @fondant.type }-h4">H4</a></li>
+            <li class="#{ button } #{ button }-blockquote"><a href="#" data-action="#{ @fondant.type }-blockquote">Quote</a></li>
+          </ul>
+          <li class="#{ group }-label">Lists</li>
+          <ul class="#{ group }">
+            <li class="#{ button } #{ button }-ol"><a href="#" data-action="#{ @fondant.type }-ol">Numbers</a></li>
+            <li class="#{ button } #{ button }-ul"><a href="#" data-action="#{ @fondant.type }-ul">Bullets</a></li>
+            <li class="#{ button } #{ button }-indent"><a href="#" data-action="#{ @fondant.type }-indent">Increase Indent</a></li>
+            <li class="#{ button } #{ button }-outdent"><a href="#" data-action="#{ @fondant.type }-outdent">Decrease Indent</a></li>
+          </ul>
+        </ul>
         """
 
 
