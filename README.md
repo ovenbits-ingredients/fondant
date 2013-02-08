@@ -73,6 +73,6 @@ $('.fondant-editor').fondant('focus');
 
 // Get or set the editor html
 $('.fondant-editor').fondant('value');
-$('.fondant-editor').fondant('value' html_string);
+$('.fondant-editor').fondant('value', html_string);
 ```
 
