@@ -1,4 +1,4 @@
-# Fondant v0.2.0
+# Fondant v0.2.1
 
 The icing on the cake for user input. A simple jQuery HTML5 WYSIWYG editor
 using `contenteditable`.
