@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.min.css" rel="stylesheet" />
+    <link href='http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css' rel='stylesheet' />
+    <link href='../fondant.css' rel='stylesheet' />
+    <style type='text/css'>
+      /*<![CDATA[*/
+        .btn i {
+          font-style: normal;
+        }
+
+        .toolbar .btn .btn-label {
+          font-size: 11px;
+          line-height: 0;
+        }
+
+        .editable[contenteditable="true"] {
+          border: 1px dotted #aaa;
+        }
+
+        textarea {
+          height: 300px;
+          width: 100%;
+        }
+
+        body {
+          padding-top: 60px;
+        }
+
+        body #save {
+          display: none;
+        }
+
+        body .navbar-form.toolbar {
+          display: none;
+        }
+
+        body.editing #save {
+          display: inline-block;
+        }
+
+        body.editing .navbar-form.toolbar {
+          display: block;
+        }
+
+        body.editing .editor-power-help {
+          display: none;
+        }
+      /*]]>*/
+    </style>
+  </head>
+  <body>
+    <div class='navbar navbar-fixed-top'>
+      <div class='navbar-inner'>
+        <div class='container'>
+          <a class='brand'>Fondant</a>
+          <div class='navbar-form actions pull-right'>
+            <span class='btn disabled editor-power-help'>
+              Click the edit button to start the editor &rarr;
+            </span>
+            <a class='btn btn-success btn-editor save' href='#' id='save'>
+              <i class='icon-save'></i>
+            </a>
+            <a class='btn btn-success power' href='#'>
+              <i class='icon-pencil'></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class='container'>
+      <textarea class='example-editor' cols='100' data-bind='body' rows='10'>&lt;p&gt;Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eu leo quam. &lt;strong&gt;Pellentesque ornare sem&lt;/strong&gt; lacinia quam venenatis vestibulum. &lt;em&gt;Lorem ipsum dolor sit amet&lt;/em&gt;, consectetur adipiscing elit. &lt;em&gt;Vestibulum id ligula porta&lt;/em&gt; felis euismod semper. Donec ullamcorper nulla non metus auctor fringilla.&lt;/p&gt;&lt;p&gt;Vestibulum id ligula porta felis euismod semper. Vestibulum id &lt;strong&gt;ligula&lt;/strong&gt; porta felis euismod semper. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.&lt;/p&gt;&lt;ul&gt;&lt;li&gt;This&lt;/li&gt;&lt;li&gt;&lt;strong&gt;That&lt;/strong&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="http://twitter.com/ovenbits"&gt;The other&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;ol&gt;&lt;li&gt;One&lt;/li&gt;&lt;li&gt;Dos&lt;/li&gt;&lt;li&gt;Trois&lt;/li&gt;&lt;/ol&gt;&lt;p&gt; &lt;a href="http://ovenbits.com"&gt;&lt;img src="http://d1a9fbb3yksxfz.cloudfront.net/assets-1.6/images/logo-color.png" alt=""&gt;&lt;/a&gt;&lt;/p&gt;</textarea>
+    </div>
+    <script src='http://code.jquery.com/jquery.min.js'></script>
+    <script src='../fondant.js'></script>
+    <script type='text/javascript'>
+      //<![CDATA[
+        $(function() {
+
+          $('.actions a.power').on('click', function() {
+            if($('.example-editor').data('fondant')) {
+              $('.actions a.power').html("<i class='icon-pencil'>");
+              $('.example-editor').fondant('destroy', true);
+            } else {
+              $('.example-editor').fondant();
+              $('.actions a.power').html("<i class='icon-save'></i>");
+              $('.actions .editor-power-help').hide();
+            }
+          });
+
+        });
+      //]]>
+    </script>
+  </body>
+</html>
+

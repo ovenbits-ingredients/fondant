@@ -1,1 +1,26 @@
-.fondant-toolbar{padding:0.5rem 0}.fondant-toolbar ul{display:inline;list-style:none;margin:0;padding:0}.fondant-toolbar ul li{display:none}.fondant-toolbar ul ul{display:inline}.fondant-toolbar ul ul li{display:inline-block}.fondant-toolbar ul ul li a{background:#eee;border:1px solid #ddd;border-radius:0.3rem;color:#777;padding:0.2rem 0.4rem}.fondant-toolbar ul ul li a:hover{background:#e0e0e0;text-decoration:none}.fondant-editor-content{border:1px dashed #ddd;border-radius:0.2rem}
+.fondant-toolbar {
+  padding: 0.5rem 0; }
+  .fondant-toolbar ul {
+    display: inline;
+    list-style: none;
+    margin: 0;
+    padding: 0; }
+    .fondant-toolbar ul li {
+      display: none; }
+    .fondant-toolbar ul ul {
+      display: inline; }
+      .fondant-toolbar ul ul li {
+        display: inline-block; }
+        .fondant-toolbar ul ul li a {
+          background: #eee;
+          border: 1px solid #dddddd;
+          border-radius: 0.3rem;
+          color: #777;
+          padding: 0.2rem 0.4rem; }
+          .fondant-toolbar ul ul li a:hover {
+            background: #e0e0e0;
+            text-decoration: none; }
+
+.fondant-editor-content {
+  border: 1px dashed #dddddd;
+  border-radius: 0.2rem; }
