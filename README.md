@@ -27,7 +27,9 @@ $('div.editable').fondant({
 });
 ```
 
-## Commands
+### Commands
+
+#### Formatting
 
 If you choose to build your own toolbar, here are the commands to use. Note that because of the
 nature of `document.execCommand()` these actions will apply to the currently selected text of _any_
@@ -61,5 +63,11 @@ $('.fondant-editor').fondant('outdent');
 // Links
 $('.fondant-editor').fondant('link', href);
 $('.fondant-editor').fondant('unlink');
+```
+
+#### Fondant
+
+```javascript
+$('.fondant-editor').fondant('focus');
 ```
 

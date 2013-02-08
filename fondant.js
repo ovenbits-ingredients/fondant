@@ -36,6 +36,10 @@
         return delete this;
       };
 
+      Fondant.prototype.focus = function() {
+        return this.$element.find('.' + this.templates.editorContentClass()).focus();
+      };
+
       Fondant.prototype.insertToolbar = function() {
         if (this.options.toolbar) {
           return this.$element.prepend(this.templates.toolbar());

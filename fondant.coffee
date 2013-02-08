@@ -93,6 +93,13 @@ $ ->
       @$element.removeData(@type)
       delete @
 
+    # ### focus()
+    #
+    # Focus the editor
+    #
+    focus: ->
+      @$element.find('.' + @templates.editorContentClass()).focus()
+
     # ### insertToolbar()
     #
     # Add the formatting toolbar and bind the editor functions
