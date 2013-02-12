@@ -249,11 +249,17 @@
 
     })();
     $.fn.fondant = function() {
-      var args, option;
+      var args, instance, option;
       option = arguments[0];
       args = Array.prototype.slice.call(arguments).slice(1);
-      return this.map(function() {
-        var $this, instance, options;
+      if (typeof option === 'string' && args.length < 1) {
+        if (option === 'getElement' || option === 'value') {
+          instance = $(this).data('fondant');
+          if (instance) return instance[option].apply(instance, args);
+        }
+      }
+      return this.each(function() {
+        var $this, options;
         $this = $(this);
         instance = $this.data('fondant');
         options = typeof option === 'object' && option;
@@ -262,8 +268,6 @@
         }
         if (typeof option === 'string') {
           return instance[option].apply(instance, args);
-        } else {
-          return instance.getElement();
         }
       });
     };

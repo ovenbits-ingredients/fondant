@@ -412,7 +412,14 @@ $ ->
     option = arguments[0]
     args = Array.prototype.slice.call(arguments)[1..]
 
-    @map ->
+    if (typeof option == 'string' && args.length < 1)
+
+      if option in ['getElement', 'value']
+        instance = $(this).data('fondant')
+        if instance
+          return instance[option].apply(instance, args)
+
+    @each ->
       $this = $(this)
       instance = $this.data('fondant')
       options = typeof option == 'object' && option
@@ -420,11 +427,8 @@ $ ->
       if (!instance)
         $this.data('fondant', (instance = new Fondant(this, options)))
 
-      if (typeof option == 'string')
+      if typeof option == 'string'
         instance[option].apply(instance, args)
-      else
-        instance.getElement()
-
 
   # ### Defaults
   #
