@@ -14,7 +14,7 @@
   <script type="text/javascript" src="src/fondant.js"></script>
 
   <!-- include spec files here... -->
-  <script type="text/javascript" src="spec/FondantSpec.js"></script>
+  <script type="text/javascript" src="spec/fondant_spec.js"></script>
 
   <script type="text/javascript">
     (function() {
@@ -45,8 +45,17 @@
     })();
   </script>
 
+  <style type="text/css">
+    body { color: #333; font-family: 'Source Code Pro', Monaco, monospace; }
+    #info { background: rgb(201, 207, 185); padding: 10px; }
+  </style>
+
 </head>
 
 <body>
+  <div id="info">
+    <h2>To watch CoffeScript files for updates:</h2>
+    <p><strong>coffee</strong> --watch --compile src/*.coffee spec/*.coffee</p>
+  </div>
 </body>
 </html>

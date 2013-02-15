@@ -435,7 +435,7 @@ $ ->
         if instance
           return instance[option].apply(instance, args)
 
-    @each ->
+    @map ->
       $this = $(this)
       instance = $this.data('fondant')
       options = typeof option == 'object' && option
@@ -445,6 +445,8 @@ $ ->
 
       if typeof option == 'string'
         instance[option].apply(instance, args)
+
+      instance.getElement()
 
   # ### Defaults
   #

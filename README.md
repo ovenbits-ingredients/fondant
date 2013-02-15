@@ -79,3 +79,13 @@ $('.fondant-editor').fondant('value', html_string);
 $('.fondant-editor').fondant('getSelection');
 ```
 
+## Testing
+
+To run the tests, first start CoffeScript watching and compiling:
+
+```bash
+coffee --watch --compile src/*.coffee spec/*.coffee
+```
+
+Then open `SpecRunner.html` in your browser to run the tests.
+

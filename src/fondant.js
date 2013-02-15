@@ -275,7 +275,7 @@
           if (instance) return instance[option].apply(instance, args);
         }
       }
-      return this.each(function() {
+      return this.map(function() {
         var $this, options;
         $this = $(this);
         instance = $this.data('fondant');
@@ -283,9 +283,8 @@
         if (!instance) {
           $this.data('fondant', (instance = new Fondant(this, options)));
         }
-        if (typeof option === 'string') {
-          return instance[option].apply(instance, args);
-        }
+        if (typeof option === 'string') instance[option].apply(instance, args);
+        return instance.getElement();
       });
     };
     return $.fn.fondant.defaults = {
