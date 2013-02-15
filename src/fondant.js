@@ -83,6 +83,12 @@
         return options = $.extend({}, $.fn[this.type].defaults, options, this.$element.data());
       };
 
+      Fondant.prototype.getSelection = function() {
+        var content;
+        content = window.getSelection().getRangeAt(0).cloneContents();
+        return $('<span>').html(content).html();
+      };
+
       Fondant.prototype.value = function(html) {
         if (html === void 0) {
           return this.$element.find('.' + this.templates.editorContentClass()).html();
@@ -264,7 +270,7 @@
       option = arguments[0];
       args = Array.prototype.slice.call(arguments).slice(1);
       if (typeof option === 'string' && args.length < 1) {
-        if (option === 'getElement' || option === 'value') {
+        if (option === 'getElement' || option === 'getSelection' || option === 'value') {
           instance = $(this).data('fondant');
           if (instance) return instance[option].apply(instance, args);
         }

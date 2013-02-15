@@ -1,4 +1,4 @@
-# ## Fondant v0.3.0
+# ## Fondant v0.4.0
 #
 # The icing on the cake for user input. A simple jQuery HTML5 WYSIWYG editor
 # using `contenteditable`.
@@ -149,6 +149,18 @@ $ ->
         $.fn[@type].defaults,  # default options
         options,               # options passed in to the constructor
         @$element.data()       # options set in the element's `data` attribute
+
+    # ### getSelection()
+    #
+    # Grab the currently selected HTML content
+    #
+    getSelection: ->
+      content = window
+        .getSelection()
+        .getRangeAt(0)
+        .cloneContents()
+
+      $('<span>').html(content).html()
 
     # ### value( html )
     #
@@ -418,7 +430,7 @@ $ ->
 
     if (typeof option == 'string' && args.length < 1)
 
-      if option in ['getElement', 'value']
+      if option in ['getElement', 'getSelection', 'value']
         instance = $(this).data('fondant')
         if instance
           return instance[option].apply(instance, args)

@@ -1,7 +1,13 @@
+## Fondant 0.4.0 ##
+
+* Get the currently selected text. It will grab any html that is selected, so
+  use with caution.
+  Fixes [#10](https://github.com/ovenbits-ingredients/fondant/issues/10)
+
 ## Fondant 0.3.0 ##
 
-* Add custom HTML insertion for IE9 (using document selection ranges). Fixes
-  [#1](https://github.com/ovenbits-ingredients/fondant/issues/1).
+* Add custom HTML insertion for IE9 (using document selection ranges).
+  Fixes [#1](https://github.com/ovenbits-ingredients/fondant/issues/1).
 
 * Prevent default actions on toolbar buttons (keeps #'s out of the URL)
 

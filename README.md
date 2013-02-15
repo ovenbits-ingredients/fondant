@@ -1,4 +1,4 @@
-# Fondant v0.3.0
+# Fondant v0.4.0
 
 The icing on the cake for user input. A simple jQuery HTML5 WYSIWYG editor
 using `contenteditable`.
@@ -74,5 +74,8 @@ $('.fondant-editor').fondant('focus');
 // Get or set the editor html
 $('.fondant-editor').fondant('value');
 $('.fondant-editor').fondant('value', html_string);
+
+// Get the currently selected text
+$('.fondant-editor').fondant('getSelection');
 ```
 
