@@ -36,7 +36,6 @@ nature of `document.execCommand()` these actions will apply to the currently sel
 contenteditable block element.
 
 ```javascript
-// Custom HTML currently not supported in IE
 $('.fondant-editor').fondant('custom', html_string);
 
 // Remove Formatting

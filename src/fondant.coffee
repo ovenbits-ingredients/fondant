@@ -290,7 +290,8 @@ $ ->
     #
     custom: (html) ->
       if navigator.appName == "Microsoft Internet Explorer"
-        console.log "Custom HTML not yet implemented"
+        range = document.selection.createRange()
+        range.pasteHTML(html)
       else
         @applyFormat 'insertHTML', html
 

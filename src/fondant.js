@@ -164,8 +164,10 @@
       };
 
       Fondant.prototype.custom = function(html) {
+        var range;
         if (navigator.appName === "Microsoft Internet Explorer") {
-          return console.log("Custom HTML not yet implemented");
+          range = document.selection.createRange();
+          return range.pasteHTML(html);
         } else {
           return this.applyFormat('insertHTML', html);
         }
