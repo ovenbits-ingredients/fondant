@@ -112,8 +112,10 @@ $ ->
     #
     bindToolbar: ->
       for action in @actions
-        $("[data-action='#{ @type }-#{ action }']").on 'click.fondant',
-          $.proxy(@[action], this)
+        $button = $("[data-action='#{ @type }-#{ action }']")
+        $button.on 'click.fondant', { action: action, editor: this }, (event) ->
+          event.preventDefault()
+          event.data.editor[event.data.action]()
 
     # ### unbindToolbar()
     #

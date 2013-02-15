@@ -46,12 +46,19 @@
       };
 
       Fondant.prototype.bindToolbar = function() {
-        var action, _i, _len, _ref, _results;
+        var $button, action, _i, _len, _ref, _results;
         _ref = this.actions;
         _results = [];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           action = _ref[_i];
-          _results.push($("[data-action='" + this.type + "-" + action + "']").on('click.fondant', $.proxy(this[action], this)));
+          $button = $("[data-action='" + this.type + "-" + action + "']");
+          _results.push($button.on('click.fondant', {
+            action: action,
+            editor: this
+          }, function(event) {
+            event.preventDefault();
+            return event.data.editor[event.data.action]();
+          }));
         }
         return _results;
       };

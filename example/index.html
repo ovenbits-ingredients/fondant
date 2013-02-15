@@ -78,7 +78,8 @@
       //<![CDATA[
         $(function() {
 
-          $('.actions a.power').on('click', function() {
+          $('.actions a.power').on('click', function(event) {
+            event.preventDefault();
             if($('.example-editor').data('fondant')) {
               $('.actions a.power').html("<i class='icon-pencil'>");
               $('.example-editor').fondant('destroy', true);
