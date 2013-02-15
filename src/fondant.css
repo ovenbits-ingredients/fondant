@@ -1,0 +1,22 @@
+.fondant-toolbar {
+  display: inline;
+  list-style: none;
+  margin: 0;
+  padding: 0; }
+  .fondant-toolbar li {
+    display: none; }
+  .fondant-toolbar ul {
+    display: inline;
+    margin: 0;
+    padding: 0; }
+    .fondant-toolbar ul li {
+      display: inline-block; }
+      .fondant-toolbar ul li a {
+        background: #eee;
+        border: 1px solid #dddddd;
+        border-radius: 0.3rem;
+        color: #777;
+        padding: 0.2rem 0.4rem; }
+        .fondant-toolbar ul li a:hover {
+          background: #e0e0e0;
+          text-decoration: none; }
