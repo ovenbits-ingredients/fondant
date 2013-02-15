@@ -310,7 +310,7 @@ $ ->
     # * `h4()`
     # * `blockquote()`
     #
-    p:  -> @applyFormat 'formatBlock', '<p>'
+    p:  -> @applyFormat 'outdent'; @applyFormat 'formatBlock', '<p>'
     h1: -> @applyFormat 'formatBlock', '<h1>'
     h2: -> @applyFormat 'formatBlock', '<h2>'
     h3: -> @applyFormat 'formatBlock', '<h3>'

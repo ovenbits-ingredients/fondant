@@ -173,6 +173,7 @@
       };
 
       Fondant.prototype.p = function() {
+        this.applyFormat('outdent');
         return this.applyFormat('formatBlock', '<p>');
       };
 
