@@ -1,3 +1,9 @@
+## Fondant 0.4.1 ##
+
+* Fix up the initializer (`$.fn.fondant`) so that it returns the correct things
+
+* Add some initial tests (see [#6](https://github.com/ovenbits-ingredients/fondant/issues/6)).
+
 ## Fondant 0.4.0 ##
 
 * Get the currently selected text. It will grab any html that is selected, so
