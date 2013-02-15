@@ -36,6 +36,7 @@ nature of `document.execCommand()` these actions will apply to the currently sel
 contenteditable block element.
 
 ```javascript
+// Insert Custom HTML (replaces currently selected text)
 $('.fondant-editor').fondant('custom', html_string);
 
 // Remove Formatting
