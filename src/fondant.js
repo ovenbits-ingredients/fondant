@@ -146,7 +146,8 @@
       };
 
       Fondant.prototype.applyFormat = function(command, value) {
-        return document.execCommand(command, false, value);
+        document.execCommand(command, false, value);
+        return this.focus();
       };
 
       Fondant.prototype.actions = ['remove', 'custom', 'undo', 'redo', 'bold', 'italic', 'p', 'h1', 'h2', 'h3', 'h4', 'blockquote', 'ol', 'ul', 'indent', 'outdent', 'link', 'unlink'];

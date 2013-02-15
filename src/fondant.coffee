@@ -258,6 +258,7 @@ $ ->
     #
     applyFormat: ( command, value ) ->
       document.execCommand command, false, value
+      @focus()
 
     # ## Formatting Functions
     #
