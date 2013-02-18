@@ -229,7 +229,7 @@
       };
 
       Fondant.prototype.link = function(url) {
-        return this.applyFormat('link', url);
+        return this.applyFormat('createLink', url);
       };
 
       Fondant.prototype.unlink = function() {

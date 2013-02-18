@@ -348,7 +348,7 @@ $ ->
     #
     # * `link( url )`
     # * `unlink()`
-    link:   (url) -> @applyFormat 'link', url
+    link:   (url) -> @applyFormat 'createLink', url
     unlink:       -> @applyFormat 'unlink'
 
     # ## HTML Templates
