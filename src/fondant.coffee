@@ -40,7 +40,7 @@
 
 $ = jQuery
 
-$ ->
+if typeof $ isnt 'undefined'
 
   # ## Class Definition
   #
@@ -417,6 +417,7 @@ $ ->
         </ul>
         """
 
+  window.Fondant = Fondant
 
   # ## Plugin Setup
   #
@@ -441,7 +442,7 @@ $ ->
       options = typeof option == 'object' && option
 
       if (!instance)
-        $this.data('fondant', (instance = new Fondant(this, options)))
+        $this.data('fondant', (instance = new window.Fondant(this, options)))
 
       if typeof option == 'string'
         instance[option].apply(instance, args)
