@@ -40,8 +40,19 @@
       };
 
       Fondant.prototype.insertToolbar = function() {
+        var toolbar_markup;
         if (this.options.toolbar) {
-          return this.$element.prepend(this.templates.toolbar());
+          toolbar_markup = (function() {
+            switch (typeof this.options.toolbar) {
+              case "boolean":
+                return this.templates.toolbar();
+              case "string":
+                return this.options.toolbar;
+              case "function":
+                return this.options.toolbar();
+            }
+          }).call(this);
+          if (this.options.toolbar) return this.$element.prepend(toolbar_markup);
         }
       };
 
