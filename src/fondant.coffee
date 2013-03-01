@@ -40,7 +40,7 @@
 
 $ = jQuery
 
-if typeof $ isnt 'undefined'
+$ ->
 
   # ## Class Definition
   #
@@ -104,7 +104,11 @@ if typeof $ isnt 'undefined'
     # Add the formatting toolbar and bind the editor functions
     #
     insertToolbar: ->
-      @$element.prepend(@templates.toolbar()) if @options.toolbar
+      if typeof @options.toolbar is 'function'
+        toolbarContent = @options.toolbar.call(@templates)
+        @$element.prepend(toolbarContent)
+      else if @options.toolbar
+        @$element.prepend(@templates.toolbar())
 
     # ### bindToolbar()
     #
@@ -417,7 +421,6 @@ if typeof $ isnt 'undefined'
         </ul>
         """
 
-  window.Fondant = Fondant
 
   # ## Plugin Setup
   #
@@ -442,7 +445,7 @@ if typeof $ isnt 'undefined'
       options = typeof option == 'object' && option
 
       if (!instance)
-        $this.data('fondant', (instance = new window.Fondant(this, options)))
+        $this.data('fondant', (instance = new Fondant(this, options)))
 
       if typeof option == 'string'
         instance[option].apply(instance, args)
@@ -457,4 +460,3 @@ if typeof $ isnt 'undefined'
   $.fn.fondant.defaults =
     prefix: 'fondant'
     toolbar: true
-
