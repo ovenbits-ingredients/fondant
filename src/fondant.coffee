@@ -104,7 +104,11 @@ $ ->
     # Add the formatting toolbar and bind the editor functions
     #
     insertToolbar: ->
-      @$element.prepend(@templates.toolbar()) if @options.toolbar
+      if typeof @options.toolbar is 'function'
+        toolbarContent = @options.toolbar.call(@templates)
+        @$element.prepend(toolbarContent)
+      else if @options.toolbar
+        @$element.prepend(@templates.toolbar())
 
     # ### bindToolbar()
     #
@@ -456,4 +460,3 @@ $ ->
   $.fn.fondant.defaults =
     prefix: 'fondant'
     toolbar: true
-
