@@ -28,6 +28,27 @@
           });
           return expect(editor.find('.fondant-toolbar').length).toBe(0);
         });
+        it("should use a custom toolbar from a string", function() {
+          var editor;
+          editor = $('<textarea>').fondant({
+            toolbar: "<div><div id=\"custom-toolbar\"></div></div>"
+          });
+          return expect(editor.children().first().html()).toEqual("<div id=\"custom-toolbar\"></div>");
+        });
+        it("should use a custom toolbar from a function", function() {
+          var editor, toolbar, toolbarBuilder;
+          toolbarBuilder = function() {
+            var toolbar_id;
+            toolbar_id = 'custom-toolbar';
+            return "<div class=\"" + (this.toolbarClass()) + "\"><div id=\"" + toolbar_id + "\"></div></div>";
+          };
+          editor = $('<textarea>').fondant({
+            toolbar: toolbarBuilder
+          });
+          toolbar = editor.children().first();
+          expect(toolbar).toHaveClass('fondant-toolbar');
+          return expect(toolbar.html()).toEqual("<div id=\"custom-toolbar\"></div>");
+        });
         return it("should set element class prefixes based on prefix option", function() {
           var editor;
           editor = $('<textarea>').fondant({

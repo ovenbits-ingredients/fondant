@@ -1,10 +1,9 @@
 (function() {
-  var $;
+  var $, Fondant;
 
   $ = jQuery;
 
-  $(function() {
-    var Fondant;
+  if (typeof $ !== 'undefined') {
     Fondant = (function() {
 
       function Fondant(element, options) {
@@ -41,7 +40,13 @@
 
       Fondant.prototype.insertToolbar = function() {
         if (this.options.toolbar) {
-          return this.$element.prepend(this.templates.toolbar());
+          if (typeof this.options.toolbar === 'boolean') {
+            return this.$element.prepend(this.templates.toolbar());
+          } else if (typeof this.options.toolbar === "string") {
+            return this.$element.prepend(this.options.toolbar);
+          } else if (typeof this.options.toolbar === "function") {
+            return this.$element.prepend(this.options.toolbar.call(this.templates));
+          }
         }
       };
 
@@ -265,6 +270,7 @@
       return Fondant;
 
     })();
+    window.Fondant = Fondant;
     $.fn.fondant = function() {
       var args, instance, option;
       option = arguments[0];
@@ -287,10 +293,10 @@
         return instance.getElement();
       });
     };
-    return $.fn.fondant.defaults = {
+    $.fn.fondant.defaults = {
       prefix: 'fondant',
       toolbar: true
     };
-  });
+  }
 
 }).call(this);

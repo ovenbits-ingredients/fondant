@@ -1,3 +1,8 @@
+## Fondant 0.5.0 ##
+
+* Allow users to pass in a string or a function to generate the toolbar html
+  (see [#11](https://github.com/ovenbits-ingredients/fondant/issues/6))
+
 ## Fondant 0.4.1 ##
 
 * Fix up the initializer (`$.fn.fondant`) so that it returns the correct things
