@@ -425,6 +425,7 @@ if typeof $ isnt 'undefined'
         </ul>
         """
 
+  window.Fondant = Fondant
 
   # ## Plugin Setup
   #

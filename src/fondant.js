@@ -270,6 +270,7 @@
       return Fondant;
 
     })();
+    window.Fondant = Fondant;
     $.fn.fondant = function() {
       var args, instance, option;
       option = arguments[0];
