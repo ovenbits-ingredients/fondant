@@ -24,12 +24,15 @@ describe "Fondant", ->
         expect(editor.children().first().html()).toEqual("<div id=\"custom-toolbar\"></div>")
 
       it "should use a custom toolbar from a function", ->
-        editor = $('<textarea>').fondant {
-          toolbar: ->
-            window.toolbar_id = 'custom-toolbar'
-            "<div class=\"toolbar\"><div id=\"#{ window.toolbar_id }\"></div></div>"
-        }
-        expect(editor.children().first().html()).toEqual("<div id=\"custom-toolbar\"></div>")
+        toolbarBuilder = ->
+          toolbar_id = 'custom-toolbar'
+          "<div class=\"#{ @toolbarClass() }\"><div id=\"#{ toolbar_id }\"></div></div>"
+
+        editor = $('<textarea>').fondant { toolbar: toolbarBuilder }
+        toolbar = editor.children().first()
+
+        expect(toolbar).toHaveClass('fondant-toolbar')
+        expect(toolbar.html()).toEqual("<div id=\"custom-toolbar\"></div>")
 
       it "should set element class prefixes based on prefix option", ->
         editor = $('<textarea>').fondant { prefix: 'icing' }

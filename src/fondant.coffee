@@ -42,7 +42,7 @@
 
 $ = jQuery
 
-$ ->
+if typeof $ isnt 'undefined'
 
   # ## Class Definition
   #
@@ -107,12 +107,12 @@ $ ->
     #
     insertToolbar: ->
       if @options.toolbar
-        toolbar_markup = switch typeof @options.toolbar
-          when "boolean"  then @templates.toolbar()
-          when "string"   then @options.toolbar
-          when "function" then @options.toolbar()
-
-        @$element.prepend(toolbar_markup) if @options.toolbar
+        if typeof @options.toolbar is 'boolean'
+          @$element.prepend(@templates.toolbar())
+        else if typeof @options.toolbar is "string"
+          @$element.prepend(@options.toolbar)
+        else if typeof @options.toolbar is "function"
+          @$element.prepend(@options.toolbar.call(@templates))
 
     # ### bindToolbar()
     #
