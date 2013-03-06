@@ -6,6 +6,8 @@
   if (typeof $ !== 'undefined') {
     Fondant = (function() {
 
+      Fondant.prototype.version = "0.6.0";
+
       function Fondant(element, options) {
         this.init('fondant', element, options);
       }
@@ -260,10 +262,17 @@
           return "<div class=\"" + (this.editorClass()) + " " + (this.editorContentClass()) + "\">\n</div>";
         },
         toolbar: function() {
-          var button, group;
-          group = this.toolbarClass() + '-button-group';
+          var action, button, html, _i, _len, _ref;
           button = this.toolbarClass() + '-button';
-          return "<ul class=\"" + (this.toolbarClass()) + "\">\n  <li class=\"" + group + "-label\">Text Styles</li>\n  <ul class=\"" + group + "\">\n    <li class=\"" + button + " " + button + "-bold\"><a href=\"#\" data-action=\"" + this.fondant.type + "-bold\">B</a></li>\n    <li class=\"" + button + " " + button + "-italic\"><a href=\"#\" data-action=\"" + this.fondant.type + "-italic\">I</a></li>\n  </ul>\n  <li class=\"" + group + "-label\">Block Styles</li>\n  <ul class=\"" + group + "\">\n    <li class=\"" + button + " " + button + "-p\"><a href=\"#\" data-action=\"" + this.fondant.type + "-p\">P</a></li>\n    <li class=\"" + button + " " + button + "-h1\"><a href=\"#\" data-action=\"" + this.fondant.type + "-h1\">H1</a></li>\n    <li class=\"" + button + " " + button + "-h2\"><a href=\"#\" data-action=\"" + this.fondant.type + "-h2\">H2</a></li>\n    <li class=\"" + button + " " + button + "-h3\"><a href=\"#\" data-action=\"" + this.fondant.type + "-h3\">H3</a></li>\n    <li class=\"" + button + " " + button + "-h4\"><a href=\"#\" data-action=\"" + this.fondant.type + "-h4\">H4</a></li>\n    <li class=\"" + button + " " + button + "-blockquote\"><a href=\"#\" data-action=\"" + this.fondant.type + "-blockquote\">Quote</a></li>\n  </ul>\n  <li class=\"" + group + "-label\">Lists</li>\n  <ul class=\"" + group + "\">\n    <li class=\"" + button + " " + button + "-ol\"><a href=\"#\" data-action=\"" + this.fondant.type + "-ol\">Numbers</a></li>\n    <li class=\"" + button + " " + button + "-ul\"><a href=\"#\" data-action=\"" + this.fondant.type + "-ul\">Bullets</a></li>\n    <li class=\"" + button + " " + button + "-indent\"><a href=\"#\" data-action=\"" + this.fondant.type + "-indent\">Increase Indent</a></li>\n    <li class=\"" + button + " " + button + "-outdent\"><a href=\"#\" data-action=\"" + this.fondant.type + "-outdent\">Decrease Indent</a></li>\n  </ul>\n</ul>";
+          html = "<ul class=\"" + (this.toolbarClass()) + "\">";
+          _ref = this.fondant.options.buttons;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            action = _ref[_i];
+            html += "<li class=\"" + button + " " + button + "-" + action + "\">";
+            html += "<a href=\"#\" data-action=\"" + this.fondant.type + "-" + action + "\">" + action + "</a>";
+            html += "</li>";
+          }
+          return html;
         }
       };
 
@@ -295,7 +304,8 @@
     };
     $.fn.fondant.defaults = {
       prefix: 'fondant',
-      toolbar: true
+      toolbar: true,
+      buttons: ['bold', 'italic', 'p', 'h1', 'h2', 'h3', 'h4', 'blockquote', 'ol', 'ul', 'indent', 'outdent', 'remove', 'unlink', 'undo', 'redo']
     };
   }
 

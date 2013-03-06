@@ -21,6 +21,17 @@
         return expect(editor.data('fondant').type).toMatch(/^fondant$/i);
       });
       return describe("options", function() {
+        it("should have a default set of toolbar buttons", function() {
+          return expect($.fn.fondant.defaults.buttons).toBeDefined();
+        });
+        it("should generate a toolbar with only the buttons specified", function() {
+          var editor;
+          editor = $('<textarea>').fondant({
+            toolbar: true,
+            buttons: ['bold', 'italic']
+          });
+          return expect(editor.find('.fondant-toolbar').children().length).toBe(2);
+        });
         it("should not create a toolbar if toolbar is set to false", function() {
           var editor;
           editor = $('<textarea>').fondant({

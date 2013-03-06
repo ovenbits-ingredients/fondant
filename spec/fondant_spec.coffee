@@ -8,6 +8,7 @@ describe "Fondant", ->
           false
 
   describe "$.fn.fondant", ->
+
     it "should instantiate the Fondant editor", ->
       editor = $('<textarea>').fondant()
       expect(editor.data('fondant')).toBeDefined()
@@ -15,6 +16,14 @@ describe "Fondant", ->
       expect(editor.data('fondant').type).toMatch(/^fondant$/i)
 
     describe "options", ->
+
+      it "should have a default set of toolbar buttons", ->
+        expect($.fn.fondant.defaults.buttons).toBeDefined()
+
+      it "should generate a toolbar with only the buttons specified", ->
+        editor = $('<textarea>').fondant { toolbar: true, buttons: [ 'bold', 'italic' ] }
+        expect(editor.find('.fondant-toolbar').children().length).toBe(2)
+
       it "should not create a toolbar if toolbar is set to false", ->
         editor = $('<textarea>').fondant { toolbar: false }
         expect(editor.find('.fondant-toolbar').length).toBe(0)
