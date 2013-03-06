@@ -120,7 +120,7 @@ if typeof $ isnt 'undefined'
     #
     bindToolbar: ->
       for action in @actions
-        $button = $("[data-action='#{ @type }-#{ action }']")
+        $button = $("##{ @type }-#{ @id } [data-action='#{ @type }-#{ action }']")
         $button.on 'click.fondant', { action: action, editor: this }, (event) ->
           event.preventDefault()
           event.data.editor[event.data.action]()
@@ -131,7 +131,7 @@ if typeof $ isnt 'undefined'
     # this is not needed since the DOM elements will be destroyed
     #
     unbindToolbar: ->
-      $("[data-action^='#{ @type }-']").off('.fondant') unless @options.toolbar
+      $("##{ @type }-#{ @id } [data-action^='#{ @type }-']").off('.fondant') unless @options.toolbar
 
     # ### removeToolbar()
     #

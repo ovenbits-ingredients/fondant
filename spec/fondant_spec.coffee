@@ -79,6 +79,19 @@ describe "Fondant", ->
 
         editor.detach()
 
+      it "should refocus the proper editor", ->
+        $('body').append(editor)
+        $('body').append(editor2 = $('<textarea class="editor2"></textarea>').fondant())
+
+        editor2.fondant('focus')
+        expect($(document.activeElement).parent()).toHaveClass('editor2')
+
+        editor.fondant('focus')
+        expect($(document.activeElement).parent()).toHaveClass('my-editor')
+
+        editor2.detach()
+        editor.detach()
+
       it "should destroy itself", ->
         editor.fondant('destroy')
         expect(editor.data('fondant')).toBe(undefined)
@@ -91,8 +104,18 @@ describe "Fondant", ->
           toApplyFormatAndMatch: (format, expected, argument) ->
             selection_helper.selectElementText(@actual.find('.fondant-editor-content'))
             @actual.fondant(format, argument)
-            console.log("#{format}: #{@actual.fondant('value')}")
             new RegExp(expected).test(@actual.fondant('value'))
+
+      it "should refocus the proper editor after application", ->
+        $('body').append(editor2 = $('<textarea class="editor2"/>').fondant())
+
+        editor.fondant('bold')
+        expect($(document.activeElement).parent()).toHaveClass('my-editor')
+
+        editor2.fondant('bold')
+        expect($(document.activeElement).parent()).toHaveClass('editor2')
+
+        editor2.fondant('destroy').detach()
 
       it "should remove formatting", ->
         editor.fondant('value', '<b><strong><em><i>Test 123</i></em></strong></b></a>')
@@ -143,7 +166,7 @@ describe "Fondant", ->
         editor.fondant('ul')
         expect(editor).toApplyFormatAndMatch('indent', '<ul><ul><li>Test 123</li></ul></ul>')
 
-      it "should outdent block", -> 
+      it "should outdent block", ->
         selection_helper.selectElementText(editor.find('.fondant-editor-content'))
         editor.fondant('ul')
         editor.fondant('indent')
@@ -158,6 +181,27 @@ describe "Fondant", ->
         editor.fondant('link', 'http://ovenbits.com')
         expect(editor).toApplyFormatAndMatch('unlink', 'Test 123')
 
+
+      afterEach ->
+        editor.detach()
+
+    describe "toolbar", ->
+      beforeEach ->
+        $('body').append(editor)
+
+      it "should bind buttons", ->
+        btn = editor.find('.fondant-toolbar-button-bold a')
+        expect(btn.data 'action').toBe('fondant-bold')
+
+      it "should refocus the correct editor after button is clicked", ->
+        $('body').append(editor2 = $('<textarea class="editor2"/>').fondant())
+        editor.fondant('bold')
+        editor.find('.fondant-toolbar-button-bold a').trigger 'click'
+
+        expect($(document.activeElement).parent()).toHaveClass('my-editor')
+
+        editor2.detach()
+        editor2.fondant('destroy')
 
       afterEach ->
         editor.detach()

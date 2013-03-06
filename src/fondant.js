@@ -56,7 +56,7 @@
         _results = [];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           action = _ref[_i];
-          $button = $("[data-action='" + this.type + "-" + action + "']");
+          $button = $("#" + this.type + "-" + this.id + " [data-action='" + this.type + "-" + action + "']");
           _results.push($button.on('click.fondant', {
             action: action,
             editor: this
@@ -70,7 +70,7 @@
 
       Fondant.prototype.unbindToolbar = function() {
         if (!this.options.toolbar) {
-          return $("[data-action^='" + this.type + "-']").off('.fondant');
+          return $("#" + this.type + "-" + this.id + " [data-action^='" + this.type + "-']").off('.fondant');
         }
       };
 

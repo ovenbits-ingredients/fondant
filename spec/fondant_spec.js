@@ -97,6 +97,17 @@
           expect($(document.activeElement)).toHaveClass('fondant-editor-content');
           return editor.detach();
         });
+        it("should refocus the proper editor", function() {
+          var editor2;
+          $('body').append(editor);
+          $('body').append(editor2 = $('<textarea class="editor2"></textarea>').fondant());
+          editor2.fondant('focus');
+          expect($(document.activeElement).parent()).toHaveClass('editor2');
+          editor.fondant('focus');
+          expect($(document.activeElement).parent()).toHaveClass('my-editor');
+          editor2.detach();
+          return editor.detach();
+        });
         return it("should destroy itself", function() {
           editor.fondant('destroy');
           return expect(editor.data('fondant')).toBe(void 0);
@@ -109,10 +120,18 @@
             toApplyFormatAndMatch: function(format, expected, argument) {
               selection_helper.selectElementText(this.actual.find('.fondant-editor-content'));
               this.actual.fondant(format, argument);
-              console.log("" + format + ": " + (this.actual.fondant('value')));
               return new RegExp(expected).test(this.actual.fondant('value'));
             }
           });
+        });
+        it("should refocus the proper editor after application", function() {
+          var editor2;
+          $('body').append(editor2 = $('<textarea class="editor2"/>').fondant());
+          editor.fondant('bold');
+          expect($(document.activeElement).parent()).toHaveClass('my-editor');
+          editor2.fondant('bold');
+          expect($(document.activeElement).parent()).toHaveClass('editor2');
+          return editor2.fondant('destroy').detach();
         });
         it("should remove formatting", function() {
           editor.fondant('value', '<b><strong><em><i>Test 123</i></em></strong></b></a>');
@@ -174,6 +193,28 @@
           selection_helper.selectElementText(editor.find('.fondant-editor-content'));
           editor.fondant('link', 'http://ovenbits.com');
           return expect(editor).toApplyFormatAndMatch('unlink', 'Test 123');
+        });
+        return afterEach(function() {
+          return editor.detach();
+        });
+      });
+      describe("toolbar", function() {
+        beforeEach(function() {
+          return $('body').append(editor);
+        });
+        it("should bind buttons", function() {
+          var btn;
+          btn = editor.find('.fondant-toolbar-button-bold a');
+          return expect(btn.data('action')).toBe('fondant-bold');
+        });
+        it("should refocus the correct editor after button is clicked", function() {
+          var editor2;
+          $('body').append(editor2 = $('<textarea class="editor2"/>').fondant());
+          editor.fondant('bold');
+          editor.find('.fondant-toolbar-button-bold a').trigger('click');
+          expect($(document.activeElement).parent()).toHaveClass('my-editor');
+          editor2.detach();
+          return editor2.fondant('destroy');
         });
         return afterEach(function() {
           return editor.detach();
