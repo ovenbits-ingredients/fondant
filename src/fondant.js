@@ -6,7 +6,7 @@
   if (typeof $ !== 'undefined') {
     Fondant = (function() {
 
-      Fondant.prototype.version = "0.6.0";
+      Fondant.prototype.version = "0.6.1";
 
       function Fondant(element, options) {
         this.init('fondant', element, options);
@@ -259,7 +259,7 @@
           return "<div class=\"" + (this.editorClass()) + "\" id=\"" + id + "\">\n</div>";
         },
         editorContent: function() {
-          return "<div class=\"" + (this.editorClass()) + " " + (this.editorContentClass()) + "\">\n</div>";
+          return "<div class=\"" + (this.editorClass()) + " " + (this.editorContentClass()) + " contenteditable\">\n</div>";
         },
         toolbar: function() {
           var action, button, html, _i, _len, _ref;

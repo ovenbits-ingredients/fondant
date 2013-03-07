@@ -1,7 +1,19 @@
+## Fondant 0.6.1 ##
+
+* Add a class of 'contenteditable' to the actual contenteditable section for semantic css
+
+## Fodnant 0.6.0 ##
+
+* Simple toolbar customization - Allow for an array to be passed in defining which buttons to show
+  in the editor. (see [#14](https://github.com/ovenbits-ingredients/fondant/issues/14))
+
+* Ensure the correct editable field is being refocused when the buttons are clicked.
+  (see [#13](https://github.com/ovenbits-ingredients/fondant/issues/13))
+
 ## Fondant 0.5.0 ##
 
 * Allow users to pass in a string or a function to generate the toolbar html
-  (see [#11](https://github.com/ovenbits-ingredients/fondant/issues/6))
+  (see [#12](https://github.com/ovenbits-ingredients/fondant/issues/12))
 
 ## Fondant 0.4.1 ##
 
