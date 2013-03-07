@@ -397,7 +397,7 @@ if typeof $ isnt 'undefined'
       #
       editorContent: ->
         """
-        <div class="#{ @editorClass()} #{ @editorContentClass() }">
+        <div class="#{ @editorClass()} #{ @editorContentClass() } contenteditable">
         </div>
         """
 
