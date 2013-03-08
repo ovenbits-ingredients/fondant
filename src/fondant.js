@@ -6,7 +6,7 @@
   if (typeof $ !== 'undefined') {
     Fondant = (function() {
 
-      Fondant.prototype.version = "0.6.1";
+      Fondant.prototype.version = "0.6.2";
 
       function Fondant(element, options) {
         this.init('fondant', element, options);

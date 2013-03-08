@@ -7,11 +7,11 @@
     display: inline-block;
     margin-right: 3px; }
     .fondant-toolbar li a {
-      background: #eee;
+      background-color: #eee;
       border: 1px solid #dddddd;
       border-radius: 0.3rem;
       color: #777;
       padding: 0.2rem 0.4rem; }
       .fondant-toolbar li a:hover {
-        background: #e0e0e0;
+        background-color: #e0e0e0;
         text-decoration: none; }

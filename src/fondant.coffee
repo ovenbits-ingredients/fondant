@@ -1,4 +1,4 @@
-# ## Fondant v0.6.1
+# ## Fondant v0.6.2
 #
 # The icing on the cake for user input. A simple jQuery HTML5 WYSIWYG editor
 # using `contenteditable`.
@@ -56,7 +56,7 @@ if typeof $ isnt 'undefined'
   # is called.
   #
   class Fondant
-    version: "0.6.1"
+    version: "0.6.2"
 
     # ## Methods
 

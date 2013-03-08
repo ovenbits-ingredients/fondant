@@ -1,4 +1,4 @@
-// Fondant v0.6.1
+// Fondant v0.6.2
 // see http://github.com/ovenbits-ingredients/fondant for more information
 //
 .fondant-toolbar {
@@ -12,13 +12,13 @@
     margin-right: 3px;
 
     a {
-      background: #eee;
+      background-color: #eee;
       border: 1px solid #ddd;
       border-radius: 0.3rem;
       color: #777;
       padding: 0.2rem 0.4rem;
       &:hover {
-        background: #e0e0e0;
+        background-color: #e0e0e0;
         text-decoration: none;
       }
     }

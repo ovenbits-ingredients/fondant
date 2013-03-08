@@ -1,3 +1,8 @@
+## Fondant 0.6.2 ##
+
+* Updated CSS to use `background-color` instead of `background` for easier customization.
+  (see [#17](https://github.com/ovenbits-ingredients/issues/17))
+
 ## Fondant 0.6.1 ##
 
 * Add a class of 'contenteditable' to the actual contenteditable section for semantic css
