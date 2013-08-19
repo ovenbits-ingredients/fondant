@@ -21,7 +21,7 @@ describe "Fondant", ->
         expect($.fn.fondant.defaults.buttons).toBeDefined()
 
       it "should generate a toolbar with only the buttons specified", ->
-        editor = $('<textarea>').fondant { toolbar: true, buttons: [ 'bold', 'italic' ] }
+        editor = $('<textarea>').fondant { toolbar: true, buttons: [ 'bold', 'italic', 'center', 'left' ] }
         expect(editor.find('.fondant-toolbar').children().length).toBe(2)
 
       it "should not create a toolbar if toolbar is set to false", ->
@@ -145,6 +145,12 @@ describe "Fondant", ->
 
       it "should apply italic", ->
         expect(editor).toApplyFormatAndMatch('italic', /^<i>Test 123<\/i>$/i)
+
+      it "should apply center justify", ->
+        expect(editor).toApplyFormatAndMatch('justifycenter', /^<p class="center">Test 123<\/p>$/i)
+
+      it "should apply left justify", ->
+        expect(editor).toApplyFormatAndMatch('justifyleft', /^<p class="left">Test 123<\/p>$/i)
 
       it "should apply paragraph", ->
         expect(editor).toApplyFormatAndMatch('p', /^<p>Test 123<\/p>$/)

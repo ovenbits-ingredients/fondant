@@ -170,7 +170,7 @@
         return this.focus();
       };
 
-      Fondant.prototype.actions = ['remove', 'custom', 'undo', 'redo', 'bold', 'italic', 'p', 'h1', 'h2', 'h3', 'h4', 'blockquote', 'ol', 'ul', 'indent', 'outdent', 'link', 'unlink'];
+      Fondant.prototype.actions = ['remove', 'custom', 'undo', 'redo', 'bold', 'italic', 'center', 'left', 'p', 'h1', 'h2', 'h3', 'h4', 'blockquote', 'ol', 'ul', 'indent', 'outdent', 'link', 'unlink'];
 
       Fondant.prototype.remove = function() {
         return this.applyFormat('removeFormat');
@@ -192,6 +192,14 @@
 
       Fondant.prototype.italic = function() {
         return this.applyFormat('italic');
+      };
+
+      Fondant.prototype.center = function() {
+        return this.applyFormat('justifycenter');
+      };
+
+      Fondant.prototype.left = function() {
+        return this.applyFormat('justifyleft');
       };
 
       Fondant.prototype.p = function() {
@@ -305,7 +313,7 @@
     $.fn.fondant.defaults = {
       prefix: 'fondant',
       toolbar: true,
-      buttons: ['bold', 'italic', 'p', 'h1', 'h2', 'h3', 'h4', 'blockquote', 'ol', 'ul', 'indent', 'outdent', 'remove', 'unlink', 'undo', 'redo']
+      buttons: ['bold', 'italic', 'center', 'left', 'p', 'h1', 'h2', 'h3', 'h4', 'blockquote', 'ol', 'ul', 'indent', 'outdent', 'remove', 'unlink', 'undo', 'redo']
     };
   }
 
