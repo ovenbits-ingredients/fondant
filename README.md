@@ -67,6 +67,8 @@ $('.fondant-editor').fondant('remove');
 // Font Style
 $('.fondant-editor').fondant('bold');
 $('.fondant-editor').fondant('italic');
+$('.fondant-editor').fondant('center');
+$('.fondant-editor').fondant('left');
 
 // Block elements
 $('.fondant-editor').fondant('p');

@@ -41,7 +41,7 @@
 # * `buttons` - An array of commands to include as buttons. Links & custom html cannot be
 #   automatically addes as a toolbar button because there needs to be some form of input between
 #   the button click and the application. Everything else is available to use.
-#   (default: [ 'bold', 'italic', 'p', 'h1', 'h2', 'h3', 'h4', 'blockquote', 'ol', 'ul', 'indent',
+#   (default: [ 'bold', 'italic', 'center', 'left', 'p', 'h1', 'h2', 'h3', 'h4', 'blockquote', 'ol', 'ul', 'indent',
 #   'outdent', 'remove', 'unlink', 'undo', 'redo' ]`)
 #
 
@@ -299,7 +299,7 @@ if typeof $ isnt 'undefined'
     #
     actions: [
       'remove', 'custom', 'undo', 'redo',
-      'bold', 'italic',
+      'bold', 'italic', 'center', 'left',
       'p', 'h1', 'h2', 'h3', 'h4', 'blockquote',
       'ol', 'ul', 'indent', 'outdent',
       'link', 'unlink'
@@ -326,8 +326,12 @@ if typeof $ isnt 'undefined'
     #
     # * `bold()`
     # * `italic()`
+    # * `center()`
+    # * `left()`
     bold:   -> @applyFormat 'bold'
     italic: -> @applyFormat 'italic'
+    center: -> @applyFormat 'justifycenter'
+    left: -> @applyFormat 'justifyleft'
 
     # ### Block Formats
     #
@@ -453,7 +457,7 @@ if typeof $ isnt 'undefined'
     prefix: 'fondant'
     toolbar: true
     buttons: [
-      'bold', 'italic',
+      'bold', 'italic', 'center', 'left',
       'p', 'h1', 'h2', 'h3', 'h4', 'blockquote',
       'ol', 'ul', 'indent', 'outdent',
       'remove', 'unlink', 'undo', 'redo'

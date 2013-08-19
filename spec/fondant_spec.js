@@ -28,7 +28,7 @@
           var editor;
           editor = $('<textarea>').fondant({
             toolbar: true,
-            buttons: ['bold', 'italic']
+            buttons: ['bold', 'italic', 'center', 'left']
           });
           return expect(editor.find('.fondant-toolbar').children().length).toBe(2);
         });
@@ -159,6 +159,12 @@
         });
         it("should apply italic", function() {
           return expect(editor).toApplyFormatAndMatch('italic', /^<i>Test 123<\/i>$/i);
+        });
+        it("should apply center justify", function() {
+          return expect(editor).toApplyFormatAndMatch('justifycenter', /^<i>Test 123<\/i>$/i);
+        });
+        it("should apply left justify", function() {
+          return expect(editor).toApplyFormatAndMatch('justifyleft', /^<i>Test 123<\/i>$/i);
         });
         it("should apply paragraph", function() {
           return expect(editor).toApplyFormatAndMatch('p', /^<p>Test 123<\/p>$/);
